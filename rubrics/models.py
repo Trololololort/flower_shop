@@ -1,3 +1,8 @@
 from django.db import models
 
-# Create your models here.
+from general.models import NameMixin
+
+
+class Rubric(NameMixin,
+             models.Model):
+    pass
