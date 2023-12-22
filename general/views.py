@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
-# Create your views here.
+
+class AboutCompanyView(TemplateView):
+    template_name = "general/parts/header.html"
