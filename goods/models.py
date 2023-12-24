@@ -6,20 +6,8 @@ from django.urls import reverse
 
 class Category(NameMixin, models.Model):
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-
-
-class Extra(NameMixin, models.Model):
-    class Meta:
-        verbose_name = "Дополнительная характеристика"
-        verbose_name_plural = "Дополнительные характеристики"
-
-
-class Package(NameMixin, models.Model):
-    class Meta:
-        verbose_name = "Тип упаковки"
-        verbose_name_plural = "Типы упаковки"
+        verbose_name = "Категория/Вид товара"
+        verbose_name_plural = "Категории/Виды товаров"
 
 
 class Color(NameMixin, models.Model):
@@ -28,27 +16,13 @@ class Color(NameMixin, models.Model):
         verbose_name_plural = "Цвета"
 
 
-class Type(NameMixin, models.Model):
-    class Meta:
-        verbose_name = "Вид товара"
-        verbose_name_plural = "Виды товара"
-
-
 class Country(NameMixin, models.Model):
     class Meta:
         verbose_name = "Страна"
         verbose_name_plural = "Страны"
 
 
-class GoodsManager(models.Manager):
-    def get_queryset(self):
-        queryset = super().get_queryset().order_by("-added")
-        return queryset
-
-
 class Goods(NameMixin, models.Model):
-    objects = GoodsManager()
-
     added = models.DateTimeField(auto_now_add=True,
                                  verbose_name="Дата добавления")
 
@@ -63,34 +37,22 @@ class Goods(NameMixin, models.Model):
         verbose_name="Страна-производитель",
     )
 
-    type = models.ForeignKey(
-        "Type",
-        on_delete=models.CASCADE,
-        verbose_name="Вид",
-    )
-
     color = models.ForeignKey(
         "Color",
         on_delete=models.CASCADE,
         verbose_name="Цвет",
     )
 
-    package = models.ForeignKey(
-        "Package",
-        on_delete=models.CASCADE,
-        verbose_name="Упаковка",
-    )
-
-    extra = models.ForeignKey(
-        "Extra",
-        on_delete=models.CASCADE,
-        verbose_name="Дополнительная характеристика",
-    )
-
+    # Т.к. для страницы "Каталог" в ТЗ под категорией понимается
+    # цветы, упаковка, дополнительно,
+    # а для страницы "Товар" надо отразить вид товара,
+    # то категорию считаем эквивалентной виду товара.
+    # Потому что цветы, упаковка и дополнительно -
+    # попадает под определение вида товара.
     category = models.ForeignKey(
         "Category",
         on_delete=models.CASCADE,
-        verbose_name="Категория",
+        verbose_name="Категория / Вид товара",
     )
 
     present = models.BooleanField(null=False,

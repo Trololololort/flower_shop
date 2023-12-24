@@ -1,9 +1,24 @@
 {% extends 'general/parts/base.html' %}
+{% load static %}
+
 
 {% block content %}
 <main>
+
+    {% include 'general/parts/h.html' with h='Каталог товаров' %}
+
+    <div class="mb-3">
+        <p>Фильтр и сортировка:</p>
+        <form action="{% url 'goods-list' %}">
+            <table>
+                {{ sort_filter_form.as_table }}
+            </table>
+            <button>Показать</button>
+        </form>
+    </div>
+
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-        {% for object in object_list %}
+        {% for object in page_obj %}
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm">
                 <a class="n-text-decoration-none" href="{{ object.get_absolute_url }}">
@@ -14,12 +29,11 @@
                     <div class="card-body">
                         <h1 class="card-title pricing-card-title">{{ object.name }}</h1>
                         <ul class="list-unstyled mt-3 mb-4">
-                            <li><span class="fw-bold">Цена: &#8381; </span>{{ object.price }}</li>
-                            <li><span class="fw-bold">Вид товара: </span>{{ object.type }}</li>
+                            <li><span class="fw-bold">Цена: </span>&#8381; {{ object.price }}</li>
+                            <li><span class="fw-bold">Категория/Вид товара: </span>{{ object.category }}</li>
                             <li><span class="fw-bold">Цвет: </span>{{ object.color }}</li>
-                            <li><span class="fw-bold">Упаковка: </span>{{ object.package }}</li>
                             <li><span class="fw-bold">Страна-производитель: </span>{{ object.origin }}</li>
-                            <li><span class="fw-bold">Дополнительная инормация: </span>{{ object.extra }}</li>
+                            <li><span class="fw-bold">Поступил в продажу: </span>{{ object.added }}</li>
                         </ul>
                     </div>
                 </a>
@@ -28,10 +42,14 @@
                 </div>
             </div>
         </div>
-
+        {% empty %}
+        <div class="display-6 text-center mb-4">Нет товаров.</div>
         {% endfor %}
-
     </div>
+
+    {% include 'general/parts/pagination.html' %}
+
+
 </main>
 
 {% endblock %}

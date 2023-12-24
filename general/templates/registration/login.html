@@ -1,0 +1,14 @@
+{% extends 'general/parts/base.html' %}
+
+{% block content %}
+<div class="form-signin w-100 m-auto">
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
+
+    </form>
+</div>
+{% endblock %}
