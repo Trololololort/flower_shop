@@ -1,3 +1,11 @@
-from django.shortcuts import render
+from django.views.generic import DetailView, ListView
 
-# Create your views here.
+from goods.models import Goods
+
+
+class GoodsDetailView(DetailView):
+    model = Goods
+
+
+class GoodsListView(ListView):
+    model = Goods

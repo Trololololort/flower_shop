@@ -17,8 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from companies.views import AboutCompanyView
+from django.conf import settings
+from django.conf.urls.static import static
+
+from goods.views import GoodsDetailView, GoodsListView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('about/', AboutCompanyView.as_view(), name="about"),
-]
+                  path('admin/', admin.site.urls),
+                  path('about/', AboutCompanyView.as_view(), name="about"),
+                  path("goods/<int:pk>/", GoodsDetailView.as_view(), name="goods-detail"),
+                  path("goods/", GoodsListView.as_view(), name="goods-list"),
+              ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
+                                                                                           document_root=settings.MEDIA_ROOT)
