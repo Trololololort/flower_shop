@@ -1,3 +1,7 @@
 .home-logo {
     width: 2em;
 }
+.n-text-decoration-none {
+    color: black;
+    text-decoration: none;
+}

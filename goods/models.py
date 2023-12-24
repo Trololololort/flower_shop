@@ -1,12 +1,14 @@
 from django.db import models
 
 from general.models import NameMixin
+from django.urls import reverse
 
 
 class Category(NameMixin, models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
 
 class Extra(NameMixin, models.Model):
     class Meta:
@@ -18,6 +20,7 @@ class Package(NameMixin, models.Model):
     class Meta:
         verbose_name = "Тип упаковки"
         verbose_name_plural = "Типы упаковки"
+
 
 class Color(NameMixin, models.Model):
     class Meta:
@@ -37,15 +40,24 @@ class Country(NameMixin, models.Model):
         verbose_name_plural = "Страны"
 
 
+class GoodsManager(models.Manager):
+    def get_queryset(self):
+        queryset = super().get_queryset().order_by("-added")
+        return queryset
+
+
 class Goods(NameMixin, models.Model):
+    objects = GoodsManager()
+
     added = models.DateTimeField(auto_now_add=True,
                                  verbose_name="Дата добавления")
-    photo = models.ImageField(name="Фото",
-                              verbose_name="Фото")
-    price = models.DecimalField(max_digits=4,
+
+    # 800 x 400 px.
+    photo = models.ImageField(verbose_name="Фото")
+    price = models.DecimalField(max_digits=10,
                                 decimal_places=2,
                                 verbose_name="Цена")
-    manufactured = models.ForeignKey(
+    origin = models.ForeignKey(
         "Country",
         on_delete=models.CASCADE,
         verbose_name="Страна-производитель",
@@ -84,6 +96,9 @@ class Goods(NameMixin, models.Model):
     present = models.BooleanField(null=False,
                                   default=True,
                                   verbose_name="В наличии")
+
+    def get_absolute_url(self):
+        return reverse('goods-detail', kwargs={"pk": self.id})
 
     class Meta:
         verbose_name = "Товар"

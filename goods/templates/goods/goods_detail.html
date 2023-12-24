@@ -1,5 +1,20 @@
-{% extends 'general/parts/base' %}
+{% extends 'general/parts/base.html' %}
 
 {% block content %}
-    trololo
+<div class="card text-center">
+    <div class="card-header">
+        <img class="w-100" src="{{ object.photo.url }}" alt="{{ object.name }}"/>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{ object.name }}</h5>
+        <p class="card-text fw-bold"><span>Цена: </span>{{ object.price }} руб.</p>
+        <p class="card-text"><span>Страна-производитель: </span>{{ object.manufactured }}</p>
+        <p class="card-text"><span>Вид товара: </span>{{ object.type }}</p>
+        <p class="card-text"><span>Цвет: </span>{{ object.color }}</p>
+
+    </div>
+    <div class="card-footer text-body-secondary">
+        <a href="#" class="btn btn-primary">Купить</a>
+    </div>
+</div>
 {% endblock %}

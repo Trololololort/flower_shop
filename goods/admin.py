@@ -8,4 +8,12 @@ admin.site.register(Package)
 admin.site.register(Type)
 admin.site.register(Color)
 admin.site.register(Country)
-admin.site.register(Goods)
+
+
+
+class GoodsAdmin(admin.ModelAdmin):
+    exclude = []
+    list_display = ["id", "name", ]
+
+
+admin.site.register(Goods, GoodsAdmin)

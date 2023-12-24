@@ -9,3 +9,8 @@ class GoodsDetailView(DetailView):
 
 class GoodsListView(ListView):
     model = Goods
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        return queryset
