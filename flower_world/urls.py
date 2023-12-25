@@ -23,6 +23,7 @@ from general.views import Test404View
 from carts.views import CartDetailView
 
 from goods.views import GoodsDetailView, GoodsListView
+from orders.views import CreateOrder
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -31,6 +32,7 @@ urlpatterns = [
                   path("goods/<int:pk>/", GoodsDetailView.as_view(), name="goods-detail"),
                   path("goods/", GoodsListView.as_view(), name="goods-list"),
                   path("carts/<int:user>/", CartDetailView.as_view(), name="cart-detail"),
+                  path("orders/create/", CreateOrder.as_view(), name="create-order"),
                   path("accounts/", include("accounts.urls")),
                   path("accounts/", include("django.contrib.auth.urls")),
 

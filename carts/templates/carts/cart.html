@@ -2,45 +2,72 @@
 {% load static %}
 
 {% block content %}
+
+{% if object_list %}
+<div class="table-responsive">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Наименование</th>
+            <th class="text-center" scope="col">Цена</th>
+            <th class="text-center" scope="col"></th>
+            <th class="text-center" scope="col">Количество</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for obj in object_list %}
+        <tr>
+            <td>{{ obj.goods.name }}</td>
+            <td class="text-center">{{ obj.goods.price }}</td>
+            <td class="text-center">{% include "carts/plus_minus.html" with data_goods="{{ obj.goods.id }}" %}</td>
+            <td class="text-center">{{ obj.quantity }}</td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td class="bg-secondary bg-gradient" colspan="2">Сумма, руб.</td>
+            <td class="bg-secondary bg-gradient text-center">{{ total }}</td>
+            <td class="bg-secondary bg-gradient"></td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+{% else %}
+
+<div class="px-4 py-5 my-5 text-center">
+    <h1 class="display-5 fw-bold text-body-emphasis">В корзине пока пусто</h1>
+</div>
+
+{% endif %}
+
+{% comment %}
 <div class="row g-5">
     <div class="col-12">
         <h4 class="d-flex justify-content-between align-items-center mb-3">
             <span class="text-primary">Ваша корзина</span>
-            <span class="badge bg-primary rounded-pill">3</span>
+            <span class="badge bg-primary rounded-pill">{{ object_list|length }}</span>
         </h4>
         <ul class="list-group mb-3">
+            {% for obj in object_list %}
             <li class="list-group-item d-flex justify-content-between lh-sm">
                 <div>
-                    <h6 class="my-0">Наименование товара</h6>
-                    <small class="text-body-secondary">Brief description</small>
+                    <h6 class="my-0">{{ obj.goods.name }}</h6>
+                    <small class="text-body-secondary">{{ .goods.color }}</small>
                 </div>
                 <div class="d-inline-flex">
-                    {% include "carts/plus_minus.html" with data_goods="1" %}
-                    <span class="text-body-secondary">&#8381; 12</span>
+                    {% include "carts/plus_minus.html" with data_goods="{{ obj.goods.id }}" %}
+                    <span class="text-body-secondary">&#8381; {{ obj.goods.price }}</span>
                 </div>
-
             </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                    <h6 class="my-0">Second product</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                </div>
-                <span class="text-body-secondary">&#8381; 8</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                    <h6 class="my-0">Third item</h6>
-                    <small class="text-body-secondary">Brief description</small>
-                </div>
-                <span class="text-body-secondary">&#8381; 5</span>
-            </li>
+            {% endfor %}
             <li class="list-group-item d-flex justify-content-between bg-secondary bg-gradient">
                 <span>Всего (руб.)</span>
-                <strong>&#8381; 20</strong>
+                <strong>&#8381; {{ total }}</strong>
             </li>
         </ul>
     </div>
 </div>
-
+{% endcomment %}
 
 {% endblock %}

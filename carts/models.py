@@ -18,6 +18,9 @@ class Cart(models.Model):
                                    default=0,
                                    verbose_name="Количество")
 
+    def __str__(self):
+        return "{}".format(self.id)
+
     class Meta:
         verbose_name = "Корзина"
         verbose_name_plural = "Корзины"
