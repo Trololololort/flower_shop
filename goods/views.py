@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.views.generic import DetailView, ListView
 
 from goods.models import Goods
@@ -6,6 +7,19 @@ from .forms import GoodsSortFilterForm
 
 class GoodsDetailView(DetailView):
     model = Goods
+
+    def get(self, request, *args, **kwargs):
+        # Защититься на случай ввода в
+        # адресную строку id товара, которого нет в наличиипше.
+        self.object = self.get_object()
+
+        if self.object and not self.object.present:
+            raise Http404(
+                ("Товар отсутствует")
+            )
+
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
 
 
 class GoodsListView(ListView):
