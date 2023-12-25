@@ -19,6 +19,7 @@ from django.urls import path, include
 from companies.views import AboutCompanyView, ContactsView
 from django.conf import settings
 from django.conf.urls.static import static
+from general.views import Test404View
 
 from goods.views import GoodsDetailView, GoodsListView
 
@@ -31,5 +32,6 @@ urlpatterns = [
                   path("accounts/", include("accounts.urls")),
                   path("accounts/", include("django.contrib.auth.urls")),
                   path("", GoodsListView.as_view(), name="home"),
+                  path("test404", Test404View.as_view(), name="test404"),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)

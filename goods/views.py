@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.views.generic import DetailView, ListView
-
+from django.shortcuts import render
 from goods.models import Goods
 from .forms import GoodsSortFilterForm
 
@@ -37,9 +37,8 @@ class GoodsListView(ListView):
             if order_by == 'price':
                 queryset = queryset.order_by(order_by)
             else:
-                assert(order_by=='category' or order_by=='origin')
-                queryset = queryset.order_by(order_by+"__name")
-
+                assert (order_by == 'category' or order_by == 'origin')
+                queryset = queryset.order_by(order_by + "__name")
 
         if category:
             queryset = queryset.filter(category_id=category)
@@ -56,3 +55,5 @@ class GoodsListView(ListView):
             context_data["sort_filter_form"] = GoodsSortFilterForm()
 
         return context_data
+
+
