@@ -185,7 +185,7 @@
                     <ul class="dropdown-menu">
                         {% if user.is_authenticated %}
                             <form method="post" action="{% url 'logout' %}">{% csrf_token %}
-                                <li><button class="btn btn-secondary"><a class="dropdown-item" href="#">Выход</a></button></li>
+                                <li><button class="btn btn-secondary dropdown-item">Выход</button></li>
                             </form>
                         {% else %}
 
