@@ -28,6 +28,7 @@ urlpatterns = [
                   path('about/', AboutCompanyView.as_view(), name="about"),
                   path("goods/<int:pk>/", GoodsDetailView.as_view(), name="goods-detail"),
                   path("goods/", GoodsListView.as_view(), name="goods-list"),
+                  path("accounts/", include("accounts.urls")),
                   path("accounts/", include("django.contrib.auth.urls")),
                   path("", GoodsListView.as_view(), name="home"),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
