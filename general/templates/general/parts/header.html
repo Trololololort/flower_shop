@@ -92,6 +92,8 @@
         .bd-mode-toggle .dropdown-menu .active .bi {
           display: block !important;
         }
+
+
     </style>
 
 
@@ -175,11 +177,34 @@
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'about' %}">О нас</a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'goods-list' %}">Каталог</a>
                 <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'contacts' %}">Контакты</a>
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="btn btn-secondary">Выход</button></form>
-                {% else %}
-                    <form method="post" action="{% url 'login' %}">{% csrf_token %}<button class="btn btn-secondary">Вход</button></form>
-                {% endif %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Вход
+                    </button>
+                    <ul class="dropdown-menu">
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+                                <li><button class="btn btn-secondary"><a class="dropdown-item" href="#">Выход</a></button></li>
+                            </form>
+                        {% else %}
+
+                            <form method="post" action="{% url 'login' %}">{% csrf_token %}
+                                <li><button class="btn btn-secondary dropdown-item">Вход</button></li>
+                            </form>
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">Регистрация</a></li>
+                        {% endif %}
+
+
+                    </ul>
+                </div>
+
+
+
+
+
+
+
             </nav>
         </div>
     </header>

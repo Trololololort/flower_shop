@@ -1,0 +1,16 @@
+{% extends 'general/parts/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="{% static 'companies/img/logo.svg' %}" alt="" width="72" height="57">
+    <h1 class="display-5 fw-bold text-body-emphasis">404 Никогда такого не было и вот опять.</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Посмотрите, пожалуйста, другие страницы нашего магазина.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="{% url 'home' %}" class="btn btn-primary btn-lg px-4 gap-3">Главная</a>
+        <a href="{% url 'goods-list' %}" class="btn btn-outline-secondary btn-lg px-4">Каталог</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
