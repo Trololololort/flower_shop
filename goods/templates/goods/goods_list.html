@@ -37,9 +37,11 @@
                         </ul>
                     </div>
                 </a>
+                {% if user.is_authenticated %}
                 <div class="card-footer py-3">
                     <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
                 </div>
+                {% endif %}
             </div>
         </div>
         {% empty %}

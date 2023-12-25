@@ -7,14 +7,16 @@
     </div>
     <div class="card-body">
         <h5 class="card-title">{{ object.name }}</h5>
-        <p class="card-text fw-bold"><span>Цена: </span>{{ object.price }} руб.</p>
-        <p class="card-text"><span>Страна-производитель: </span>{{ object.manufactured }}</p>
+        <p class="card-text fw-bold"><span>Цена: </span>&#8381; {{ object.price }}</p>
+        <p class="card-text"><span>Страна-производитель: </span>{{ object.origin }}</p>
         <p class="card-text"><span>Вид товара: </span>{{ object.category }}</p>
         <p class="card-text"><span>Цвет: </span>{{ object.color }}</p>
 
     </div>
+    {% if user.is_authenticated %}
     <div class="card-footer text-body-secondary">
         <a href="#" class="btn btn-primary">Купить</a>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

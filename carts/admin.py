@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from carts.models import Cart
+
+class CartAdmin(admin.ModelAdmin):
+    exclude = []
+
+
+admin.site.register(Cart, CartAdmin)

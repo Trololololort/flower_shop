@@ -10,7 +10,7 @@ admin.site.register(Country)
 
 class GoodsAdmin(admin.ModelAdmin):
     exclude = []
-    list_display = ["id", "name", ]
+    list_display = ["id", "name", "stock",]
 
 
 admin.site.register(Goods, GoodsAdmin)

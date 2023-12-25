@@ -26,7 +26,7 @@ class Goods(NameMixin, models.Model):
     added = models.DateTimeField(auto_now_add=True,
                                  verbose_name="Дата добавления")
 
-    # 800 x 400 px.
+    # 500 x 500 px.
     photo = models.ImageField(verbose_name="Фото")
     price = models.DecimalField(max_digits=10,
                                 decimal_places=2,
@@ -58,6 +58,8 @@ class Goods(NameMixin, models.Model):
     present = models.BooleanField(null=False,
                                   default=True,
                                   verbose_name="В наличии")
+
+    stock = models.IntegerField(default=0, null=False, blank=False, verbose_name="Остаток товара")
 
     def get_absolute_url(self):
         return reverse('goods-detail', kwargs={"pk": self.id})
