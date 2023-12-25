@@ -8,7 +8,7 @@ class AboutCompanyView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["object_list"] = Goods.objects.all().filter(present=True).order_by("-added")[:5]
+        context["object_list"] = Goods.present.all()[:5]
         return context
 
 class ContactsView(TemplateView):

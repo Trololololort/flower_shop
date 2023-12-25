@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.views.generic import DetailView, ListView
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from goods.models import Goods
 from .forms import GoodsSortFilterForm
 
@@ -10,13 +10,16 @@ class GoodsDetailView(DetailView):
 
     def get(self, request, *args, **kwargs):
         # Защититься на случай ввода в
-        # адресную строку id товара, которого нет в наличиипше.
-        self.object = self.get_object()
+        # адресную строку id товара, которого нет в наличии,
+        # хотя, он может быть в админке.
+        self.object = get_object_or_404(Goods, pk=kwargs.get("pk"))
 
-        if self.object and not self.object.present:
+        if self.object.stock == 0 :
             raise Http404(
                 ("Товар отсутствует")
             )
+
+        assert(self.object.stock > 0)
 
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
@@ -30,8 +33,7 @@ class GoodsListView(ListView):
         category = self.request.GET.get("category")
         order_by = self.request.GET.get("order_by")
 
-        # Пользователю показвать товары: 1) которые есть в наличии; 2) упорядоченные по новизне.
-        queryset = super().get_queryset().order_by("-added").filter(present=True)
+        queryset = Goods.in_stock.all()
 
         if order_by and order_by != "--":
             if order_by == 'price':

@@ -21,8 +21,17 @@ class Country(NameMixin, models.Model):
         verbose_name = "Страна"
         verbose_name_plural = "Страны"
 
+class GoodsManager(models.Manager):
+    def get_queryset(self):
+        # В наличии и упорядоченные по убыванию даты добавления товара.
+        return super().get_queryset().filter(stock__gte=1).order_by("-added")
+
 
 class Goods(NameMixin, models.Model):
+
+    objects = models.Manager() # По умолчанию. Нужен для админки.
+    in_stock = GoodsManager()
+
     added = models.DateTimeField(auto_now_add=True,
                                  verbose_name="Дата добавления")
 
@@ -55,11 +64,7 @@ class Goods(NameMixin, models.Model):
         verbose_name="Категория / Вид товара",
     )
 
-    present = models.BooleanField(null=False,
-                                  default=True,
-                                  verbose_name="В наличии")
-
-    stock = models.IntegerField(default=0, null=False, blank=False, verbose_name="Остаток товара")
+    stock = models.PositiveIntegerField(default=0, null=False, blank=False, verbose_name="Остаток товара")
 
     def get_absolute_url(self):
         return reverse('goods-detail', kwargs={"pk": self.id})
