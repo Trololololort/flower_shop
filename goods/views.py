@@ -51,6 +51,7 @@ class GoodsListView(ListView):
 
         context_data = super().get_context_data(**kwargs)
 
+
         if self.request.GET:
             context_data["sort_filter_form"] = GoodsSortFilterForm(self.request.GET)
         else:

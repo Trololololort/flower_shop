@@ -17,6 +17,8 @@
         </form>
     </div>
 
+    {% include 'goods/parts/message.html' %}
+
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% for object in page_obj %}
         <div class="col">
@@ -38,9 +40,10 @@
                         </ul>
                     </div>
                 </a>
+
                 {% if user.is_authenticated %}
                 <div class="card-footer py-3">
-                    <button type="button" class="w-100 btn btn-lg btn-outline-primary">Купить</button>
+                    {% include 'goods/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path %}
                 </div>
                 {% endif %}
             </div>

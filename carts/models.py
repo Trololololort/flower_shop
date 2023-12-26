@@ -5,7 +5,7 @@ from django.db import models
 class Cart(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
-                             verbose_name="Пользователь")
+                             verbose_name="Пользователь",)
     goods = models.ForeignKey("goods.goods",
                               on_delete=models.CASCADE,
                               verbose_name="Товар")

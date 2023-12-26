@@ -41,33 +41,5 @@
 
 {% endif %}
 
-{% comment %}
-<div class="row g-5">
-    <div class="col-12">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-primary">Ваша корзина</span>
-            <span class="badge bg-primary rounded-pill">{{ object_list|length }}</span>
-        </h4>
-        <ul class="list-group mb-3">
-            {% for obj in object_list %}
-            <li class="list-group-item d-flex justify-content-between lh-sm">
-                <div>
-                    <h6 class="my-0">{{ obj.goods.name }}</h6>
-                    <small class="text-body-secondary">{{ .goods.color }}</small>
-                </div>
-                <div class="d-inline-flex">
-                    {% include "carts/plus_minus.html" with data_goods="{{ obj.goods.id }}" %}
-                    <span class="text-body-secondary">&#8381; {{ obj.goods.price }}</span>
-                </div>
-            </li>
-            {% endfor %}
-            <li class="list-group-item d-flex justify-content-between bg-secondary bg-gradient">
-                <span>Всего (руб.)</span>
-                <strong>&#8381; {{ total }}</strong>
-            </li>
-        </ul>
-    </div>
-</div>
-{% endcomment %}
 
 {% endblock %}
