@@ -1,4 +1,7 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.utils.decorators import method_decorator
+from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
 from django.shortcuts import get_object_or_404
 from goods.models import Goods
@@ -58,5 +61,14 @@ class GoodsListView(ListView):
             context_data["sort_filter_form"] = GoodsSortFilterForm()
 
         return context_data
+
+@method_decorator(csrf_exempt, name='dispatch')
+class IsEnoughInStock(View):
+    def post(self, request):
+        in_stock = Goods.in_stock.get(pk=1)
+        if in_stock:
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse("Out of stock", status=404)
 
 

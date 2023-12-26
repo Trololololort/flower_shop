@@ -1,0 +1,26 @@
+<script>
+    $( document ).ready(function() {
+        function submitFormIfThereAreEnoughGoodsInStock(e){
+            let $form = jQuery(e.target);
+
+            $.ajax({
+                method: "POST",
+                url: "{{ is_enough_in_stock_url }}",
+                data: jQuery(e.target).serialize()
+            })
+            .done(function( data ) {
+              // Ничего не делаем. Форма отправится.
+            }).fail(function( data ){
+                alert( "Товара нет в наличии." );
+                e.preventDefault();
+            });
+        }
+
+        function addEventListeners(){
+            $(".to-cart-form").on("submit", submitFormIfThereAreEnoughGoodsInStock);
+        }
+
+        addEventListeners();
+    });
+
+</script>

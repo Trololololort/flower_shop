@@ -40,7 +40,14 @@ class AddToCart(View):
 
 
         if user and goods:
-            Cart.objects.create(user=user, goods=goods, quantity=1)
+
+            the_goods_already_in_cart = Cart.objects.filter(user=user, goods=goods).first()
+
+            if the_goods_already_in_cart:
+                the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + 1)
+                the_goods_already_in_cart.save()
+            else:
+                Cart.objects.create(user=user, goods=goods, quantity=1)
             messages.add_message(request, messages.INFO, 'Товар "{}" добавлен в корзину'.format(goods.name))
             return redirect(referer)
         else:

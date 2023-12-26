@@ -1,7 +1,7 @@
-<form method="post" action="{% url 'add-to-cart' %}">
+<form class="to-cart-form" data-goods="{{ goods_id }}" method="post" action="{% url 'add-to-cart' %}">
     {% csrf_token %}
     <input type="hidden" name="user_id" value="{{ user_id }}">
     <input type="hidden" name="goods_id" value="{{ goods_id }}">
     <input type="hidden" name="referer" value="{{ referer }}">
-    <button class="btn btn-primary">В корзину</button>
+    <button class="btn btn-primary" data-goods='{{ goods_id }}'>В корзину</button>
 </form>

@@ -1,6 +1,9 @@
 {% extends 'general/parts/base.html' %}
+{% load cart_extras %}
+
 
 {% block content %}
+{% cart_script user %}
 <div class="card text-center">
     <div class="card-header">
         <img class="w-100" src="{{ object.photo.url }}" alt="{{ object.name }}"/>
@@ -15,7 +18,7 @@
 
     </div>
 
-    {% indlude 'goods/parts/message.html' %}
+    {% include 'goods/parts/message.html' %}
 
 
     {% if user.is_authenticated %}
@@ -24,4 +27,9 @@
     </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
+    {% url 'is-enough-in-stock' as the_url %}
+    {% include 'goods/parts/is_enough_in_stock.html' with is_enough_in_stock_url=the_url %}
 {% endblock %}
