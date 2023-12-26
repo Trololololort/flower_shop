@@ -23,3 +23,6 @@ class SignUpView(generic.CreateView):
 class ExtendedLoginView(LoginView):
     form_class = LoginForm
     template_name = "accounts/login.html"
+
+
+
