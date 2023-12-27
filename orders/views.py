@@ -17,7 +17,7 @@ class OrdersListView(ListView):
 
     def get_queryset(self):
         result = Cart.objects.filter(user=self.request.user).order_by(
-            "-ordered").distinct()
+            "-ordered").values("order_uuid", "ordered", "status").distinct()
         return result
 
 
