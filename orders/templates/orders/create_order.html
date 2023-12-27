@@ -1,1 +1,12 @@
-{{  object }}
+<div class="form-signin w-100 m-auto">
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
+        <p><a href="{% url 'signup' %}">Регистрация</a></p>
+
+    </form>
+</div>
+{% endblock %}

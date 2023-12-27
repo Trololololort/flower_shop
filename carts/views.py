@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 from django.contrib import messages
 
+from carts.forms import OrderForm
 from carts.models import Cart
 from goods.models import Goods
 
@@ -22,9 +23,9 @@ class CartDetailView(LoginRequiredMixin,
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = kwargs.get('user')
-        object_list = Cart.objects.filter(user=user)
+        object_list = Cart.objects.filter(user=user).filter(ordered=None)
         context["object_list"] = object_list
-
+        context["order_form"] = OrderForm()
         context["total"] = get_total(object_list)
         return context
 
@@ -41,7 +42,7 @@ class AddToCart(View):
 
         if user and goods:
 
-            the_goods_already_in_cart = Cart.objects.filter(user=user, goods=goods).first()
+            the_goods_already_in_cart = Cart.objects.filter(user=user, goods=goods, ordered=None).first()
 
             if the_goods_already_in_cart:
                 the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + 1)

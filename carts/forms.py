@@ -1,6 +1,9 @@
 from django import forms
 
 
-# class AddToCartForm(forms.Form):
-#     goods_id = forms.IntegerField()
-#     user_id = forms.IntegerField()
+class OrderForm(forms.Form):
+    password = forms.CharField(
+        label="Пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
+    )

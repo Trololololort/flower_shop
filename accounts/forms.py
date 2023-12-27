@@ -1,5 +1,8 @@
+
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
+from django import forms
 
 UserModel = get_user_model()
 
@@ -14,3 +17,12 @@ class LoginForm(AuthenticationForm):
         # look up field name; return original if not found
         field_name = FIELD_NAME_MAPPING.get(field_name, field_name)
         return super().add_prefix(field_name)
+
+
+
+class PassvordValidationForm(forms.Form):
+    password = forms.CharField(
+        label="Пароль",
+        strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "current-password"}),
+    )
