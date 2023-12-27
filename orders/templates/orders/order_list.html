@@ -2,7 +2,7 @@
 
 {% block content %}
 {% for obj in object_list %}
-    <p></p><a href="{% url 'order-detail' obj.order_uuid %}">{{ obj.order_uuid}} </a> {{ obj.ordered }}</p>
+    <p></p><a href="{% url 'order-detail' obj.order_uuid %}">{{ obj.order_uuid}} </a> {{ obj.ordered }} {{ obj.get_status_display }} {% if obj.status == 'NEW' %}Удалить{% endif %}</p>
 {% endfor %}
 
 {% include 'general/parts/pagination.html' %}

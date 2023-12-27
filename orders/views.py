@@ -16,7 +16,7 @@ class OrdersListView(ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        result = Cart.objects.filter(user=self.request.user).values('order_uuid', "ordered").order_by(
+        result = Cart.objects.filter(user=self.request.user).order_by(
             "-ordered").distinct()
         return result
 
@@ -46,5 +46,14 @@ class CreateOrder(LoginRequiredMixin,
 
 
         create_order(user, request)
+
+        return redirect("home")
+
+
+class DeleteOrder(LoginRequiredMixin,
+                  View):
+
+    def post(self, request):
+
 
         return redirect("home")
