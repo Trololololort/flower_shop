@@ -24,7 +24,6 @@ class Cart(models.Model):
     ordered = models.DateTimeField(verbose_name="Заказано", null=True)
     order_uuid = models.UUIDField(verbose_name="ID заказа",
                                   null=True,
-                                  unique=True,
                                   )
 
     status = models.CharField(max_length=9,

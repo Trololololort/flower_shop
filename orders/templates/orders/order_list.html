@@ -1,0 +1,10 @@
+{% extends 'general/parts/base.html' %}
+
+{% block content %}
+{% for obj in object_list %}
+    <p></p><a href="{% url 'order-detail' obj.order_uuid %}">{{ obj.order_uuid}} </a> {{ obj.ordered }}</p>
+{% endfor %}
+
+{% include 'general/parts/pagination.html' %}
+
+{% endblock %}
