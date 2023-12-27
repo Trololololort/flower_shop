@@ -23,7 +23,7 @@ from general.views import Test404View
 from carts.views import CartDetailView, AddToCart
 
 from goods.views import GoodsDetailView, GoodsListView, IsEnoughInStock
-from orders.views import OrdersListView, OrderDetailView
+from orders.views import OrdersListView, OrderDetailView, CreateOrder
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -33,6 +33,7 @@ urlpatterns = [
                   path("goods/", GoodsListView.as_view(), name="goods-list"),
                   path("carts/<int:user>/", CartDetailView.as_view(), name="cart-detail"),
                   path("carts/add/", AddToCart.as_view(), name="add-to-cart"),
+                  path("orders/create/", CreateOrder.as_view(), name="create-order"),
                   path("orders/<str:uuid>/", OrderDetailView.as_view(), name="order-detail"),
                   path("orders/", OrdersListView.as_view(), name="orders-list"),
                   path("accounts/", include("accounts.urls")),

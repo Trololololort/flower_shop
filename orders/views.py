@@ -45,6 +45,6 @@ class CreateOrder(LoginRequiredMixin,
             return redirect("cart-detail", user.id)
 
 
-        create_order(user)
+        create_order(user, request)
 
         return redirect("home")
