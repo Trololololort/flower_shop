@@ -7,6 +7,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView
 
 from carts.models import Cart
+from orders.utils import create_order
 
 
 class OrdersListView(ListView):
