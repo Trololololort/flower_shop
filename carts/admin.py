@@ -22,9 +22,8 @@ def confirm_order(modeladmin, request, queryset):
 
 class CartAdmin(admin.ModelAdmin):
     exclude = []
-    list_display = ["id", "user", "order_uuid", "ordered", "status", "goods", "price", "quantity", ]
-    list_filter = ["status", "user", "order_uuid", ]
-    search_fields = ["order_uuid", ]
+    list_display = ["id", "user", "order", "goods", "price", "quantity", ]
+
     actions = [confirm_order, ]
 
 

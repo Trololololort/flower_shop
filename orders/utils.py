@@ -1,19 +1,16 @@
-import uuid
-
 from django.contrib import messages
+from django.db import transaction
+
 from carts.models import Cart
-from django.utils import timezone
-from carts.const import ORDER_STATUS
+from orders.models import Order
 
 
+@transaction.atomic
 def create_order(user, request):
-    carts = Cart.objects.filter(user=user).filter(ordered=None)
-    a_uuid = uuid.uuid4()
-    carts.update(ordered=timezone.now(), order_uuid=a_uuid, status = ORDER_STATUS[1][0])
+    carts = Cart.objects.filter(user=user).filter(order=None)
 
-    messages.add_message(request, messages.INFO, "Ваш заказ номер {} принят к исполнению.".format(a_uuid))
+    new_order = Order.objects.create(user=user)
 
+    carts.update(order=new_order, )
 
-
-
-
+    messages.add_message(request, messages.INFO, "Ваш заказ номер {} принят к исполнению.".format(new_order.pk))

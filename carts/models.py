@@ -1,14 +1,11 @@
 from django.contrib.auth.models import User
 from django.db import models
-import uuid
 
-from carts.const import ORDER_STATUS
+from general.model_mixins import UserMixin
 
 
-class Cart(models.Model):
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE,
-                             verbose_name="Пользователь", )
+class Cart(UserMixin,
+           models.Model):
     goods = models.ForeignKey("goods.goods",
                               on_delete=models.CASCADE,
                               verbose_name="Товар")
@@ -21,17 +18,16 @@ class Cart(models.Model):
                                    default=0,
                                    verbose_name="Количество")
 
-    ordered = models.DateTimeField(verbose_name="Заказано", null=True)
-    order_uuid = models.UUIDField(verbose_name="ID заказа",
-                                  null=True,
-                                  )
+    # ordered = models.DateTimeField(verbose_name="Заказано", null=True)
+    # order_uuid = models.UUIDField(verbose_name="ID заказа",
+    #                               null=True,
+    #                               )
 
-    status = models.CharField(max_length=9,
-                              choices=ORDER_STATUS,
-                              verbose_name="Статус",
-                              blank=True,
-                              null=False,
-                              default="---")
+    order = models.ForeignKey("orders.Order",
+                              on_delete=models.CASCADE,
+                              null=True,
+                              blank=True,)
+
 
     def price(self):
         return self.goods.price
@@ -40,7 +36,7 @@ class Cart(models.Model):
         return "{}".format(self.id)
 
     class Meta:
-        verbose_name = "Корзина"
-        verbose_name_plural = "Корзины"
+        verbose_name = "Товар в корзине"
+        verbose_name_plural = "Товары в корзине"
 
 

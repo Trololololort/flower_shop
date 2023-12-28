@@ -10,6 +10,7 @@
     <table class="table table-striped table-sm">
         <thead>
         <tr>
+            <th scope="col">Артикул</th>
             <th scope="col">Наименование</th>
             <th class="text-center" scope="col">Цена</th>
             <th class="text-center" scope="col"></th>
@@ -19,7 +20,8 @@
         <tbody>
         {% for obj in object_list %}
         <tr>
-            <td>{{ obj.goods.name }}</td>
+            <td>{{ obj.goods.id }}</td>
+            <td>{{ obj.goods.name }} {% if obj.goods.color %} ({{ obj.goods.color }}) {% endif %}</td>
             <td class="text-center">{{ obj.goods.price }}</td>
             <td class="text-center">{% include "carts/plus_minus.html" with data_goods="{{ obj.goods.id }}" %}</td>
             <td class="text-center">{{ obj.quantity }}</td>
