@@ -8,7 +8,6 @@
     {% include 'general/parts/h.html' with h='Каталог товаров' %}
 
     <div class="mb-3">
-        <p>Фильтр и сортировка:</p>
         <form action="{% url 'goods-list' %}">
             <table>
                 {{ sort_filter_form.as_table }}

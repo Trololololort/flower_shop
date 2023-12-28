@@ -16,9 +16,13 @@ class GoodsSortFilterForm(forms.ModelForm):
         self.fields['category'].required = False
 
 
-    order_by = forms.ChoiceField(choices=get_choices, label="Сортировать по:", required=False)
+    order_by = forms.ChoiceField(choices=get_choices, label="Сортировать по", required=False)
 
     class Meta:
         model = Goods
 
         fields = ["category", ]
+
+        labels = {
+            "category": "Фильтр"
+        }

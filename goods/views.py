@@ -17,12 +17,12 @@ class GoodsDetailView(DetailView):
         # хотя, он может быть в админке.
         self.object = get_object_or_404(Goods, pk=kwargs.get("pk"))
 
-        if self.object.stock == 0 :
+        if self.object.stock == 0:
             raise Http404(
                 ("Товар отсутствует")
             )
 
-        assert(self.object.stock > 0)
+        assert (self.object.stock > 0)
 
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
@@ -39,8 +39,10 @@ class GoodsListView(ListView):
         queryset = Goods.in_stock.all()
 
         if order_by and order_by != "--":
-            if order_by == 'price':
-                queryset = queryset.order_by(order_by)
+            if order_by == 'price' or order_by == 'added':
+                # По убыванию цены и даты добавления.
+                queryset = queryset.order_by("-" + order_by)
+
             else:
                 assert (order_by == 'category' or order_by == 'origin')
                 queryset = queryset.order_by(order_by + "__name")
@@ -54,13 +56,13 @@ class GoodsListView(ListView):
 
         context_data = super().get_context_data(**kwargs)
 
-
         if self.request.GET:
             context_data["sort_filter_form"] = GoodsSortFilterForm(self.request.GET)
         else:
             context_data["sort_filter_form"] = GoodsSortFilterForm()
 
         return context_data
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class IsEnoughInStock(View):
@@ -70,5 +72,3 @@ class IsEnoughInStock(View):
             return HttpResponse(status=204)
         else:
             return HttpResponse("Out of stock", status=404)
-
-
