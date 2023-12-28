@@ -35,7 +35,7 @@ urlpatterns = [
                   path("carts/add/", AddToCart.as_view(), name="add-to-cart"),
                   path("orders/create/", CreateOrder.as_view(), name="create-order"),
                   path("orders/delete/", DeleteOrder.as_view(), name="delete-order"),
-                  path("orders/<str:uuid>/", OrderDetailView.as_view(), name="order-detail"),
+                  path("orders/<str:pk>/", OrderDetailView.as_view(), name="order-detail"),
                   path("orders/", OrdersListView.as_view(), name="orders-list"),
                   path("accounts/", include("accounts.urls")),
                   path("accounts/", include("django.contrib.auth.urls")),

@@ -7,10 +7,10 @@ from orders.models import Order
 
 @transaction.atomic
 def create_order(user, request):
-    carts = Cart.objects.filter(user=user).filter(order=None)
+    carts = Cart.objects.filter(user=user, order=None)
 
     new_order = Order.objects.create(user=user)
 
-    carts.update(order=new_order, )
+    carts.update(order=new_order)
 
     messages.add_message(request, messages.INFO, "Ваш заказ номер {} принят к исполнению.".format(new_order.pk))

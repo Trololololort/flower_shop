@@ -4,29 +4,32 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.shortcuts import redirect
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import DetailView, ListView
 
-from carts.models import Cart
+from carts.views import get_total
+from orders.models import Order
 from orders.utils import create_order
 
 
 class OrdersListView(ListView):
-    model = Cart
+    model = Order
     template_name = "orders/order_list.html"
     paginate_by = 5
 
     def get_queryset(self):
-        result = Cart.objects.filter(user=self.request.user).order_by(
-            "-ordered").values("order_uuid", "ordered", "status").distinct()
+        result = Order.objects.all().order_by(
+            "-ordered")
         return result
 
 
-class OrderDetailView(TemplateView):
+class OrderDetailView(DetailView):
+    model = Order
     template_name = "orders/order_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        context['goods'] = self.object.cart_set.all()
+        context['total'] = get_total(context['goods'])
         return context
 
 
@@ -54,6 +57,12 @@ class DeleteOrder(LoginRequiredMixin,
                   View):
 
     def post(self, request):
+        order_id = request.POST.get("order")
 
-
-        return redirect("home")
+        if order_id:
+            order_obj = Order.objects.filter(pk=order_id).first()
+            order_obj.delete()
+            messages.add_message(request, messages.INFO, "Удален заказ {}.".format(order_id))
+        else:
+            messages.add_message(request, messages.INFO, "Не удалось удалить заказ.")
+        return redirect("orders-list")

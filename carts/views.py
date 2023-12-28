@@ -12,7 +12,7 @@ from goods.models import Goods
 
 def get_total(a_queryset):
     sum = 0
-    [sum := elem.goods.price * elem.quantity for elem in a_queryset]
+    [sum := sum + elem.goods.price * elem.quantity for elem in a_queryset]
     return sum
 
 

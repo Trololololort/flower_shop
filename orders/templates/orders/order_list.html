@@ -1,9 +1,38 @@
 {% extends 'general/parts/base.html' %}
 
 {% block content %}
-{% for obj in object_list %}
-    <p></p><a href="{% url 'order-detail' obj.order_uuid %}">{{ obj.order_uuid}} </a> {{ obj.ordered }} {{ obj.get_status_display }} {% if obj.status == 'NEW' %}Удалить{% endif %}</p>
-{% endfor %}
+{% include 'goods/parts/message.html' %}
+
+<div class="table-responsive small">
+    <table class="table table-striped table-sm">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Заказ</th>
+            <th scope="col">Время заказа</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Удалить заказ</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for obj in object_list %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><a href="{% url 'order-detail' obj.pk %}">{{ obj.pk}} </a></td>
+            <td>{{ obj.ordered }}</td>
+            <td>{{ obj.get_status_display }}</td>
+
+            <td>{% if obj.status == 'NEW' %}{% include 'orders/parts/delete_order.html' with order=obj %}{% endif %}
+
+            </td>
+        </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+</div>
 
 {% include 'general/parts/pagination.html' %}
 

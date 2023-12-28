@@ -129,6 +129,9 @@
                                 <button class="btn btn-secondary dropdown-item">Выход</button>
                             </li>
                         </form>
+                            <li>
+                                <a class="btn btn-secondary dropdown-item" href="{% url 'orders-list' %}">Мои заказы</a>
+                            </li>
                         {% else %}
 
                         <form method="post" action="{% url 'login' %}">{% csrf_token %}

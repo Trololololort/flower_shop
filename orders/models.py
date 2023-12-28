@@ -17,6 +17,11 @@ class Order(UserMixin,
                               null=False,
                               default="NEW")
 
+    cancellation_cause = models.TextField(verbose_name="Причина отказа",
+                                          default="",
+                                          null=False,
+                                          blank=True)
+
     def __str__(self):
         return "{}".format(self.id)
 
