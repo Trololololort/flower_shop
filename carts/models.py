@@ -18,10 +18,6 @@ class Cart(UserMixin,
                                    default=0,
                                    verbose_name="Количество")
 
-    # ordered = models.DateTimeField(verbose_name="Заказано", null=True)
-    # order_uuid = models.UUIDField(verbose_name="ID заказа",
-    #                               null=True,
-    #                               )
 
     order = models.ForeignKey("orders.Order",
                               on_delete=models.CASCADE,

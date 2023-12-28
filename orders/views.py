@@ -11,7 +11,8 @@ from orders.models import Order
 from orders.utils import create_order
 
 
-class OrdersListView(ListView):
+class OrdersListView(LoginRequiredMixin,
+                     ListView):
     model = Order
     template_name = "orders/order_list.html"
     paginate_by = 5
@@ -22,7 +23,8 @@ class OrdersListView(ListView):
         return result
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin,
+                      DetailView):
     model = Order
     template_name = "orders/order_detail.html"
 
@@ -46,7 +48,6 @@ class CreateOrder(LoginRequiredMixin,
         except ValidationError:
             messages.add_message(request, messages.INFO, "Неверный пароль")
             return redirect("cart-detail", user.id)
-
 
         create_order(user, request)
 
