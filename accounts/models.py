@@ -1,6 +1,7 @@
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+
+from accounts.validators import cyrillic_validator, latin_space_hyphen, gte_6
 
 
 class CustomUser(AbstractUser):
