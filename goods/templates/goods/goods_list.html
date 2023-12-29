@@ -7,6 +7,8 @@
 
     {% include 'general/parts/h.html' with h='Каталог товаров' %}
 
+    {% include 'general/parts/message.html' %}
+
     <div class="mb-3">
         <form action="{% url 'goods-list' %}">
             <table>
@@ -15,8 +17,6 @@
             <button>Показать</button>
         </form>
     </div>
-
-    {% include 'general/parts/message.html' %}
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
         {% for object in page_obj %}
