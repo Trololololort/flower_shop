@@ -119,7 +119,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false" style="{width: 3em}">
-                            {% if user.is_authenticated %}&#128522;{% else %}&#128542;{% endif %}
+                        {% if user.is_authenticated %}&#128522;{% else %}&#128542;{% endif %}
                     </button>
                     <ul class="dropdown-menu">
 
@@ -129,17 +129,12 @@
                                 <button class="btn btn-secondary dropdown-item">Выход</button>
                             </li>
                         </form>
-                            <li>
-                                <a class="btn btn-secondary dropdown-item" href="{% url 'orders-list' %}">Мои заказы</a>
-                            </li>
+                        <li>
+                            <a class="btn btn-secondary dropdown-item" href="{% url 'orders-list' %}">Мои заказы</a>
+                        </li>
                         {% else %}
-
-                        <form method="post" action="{% url 'login' %}">{% csrf_token %}
-                            <li>
-                                <button class="btn btn-secondary dropdown-item">Вход</button>
-                            </li>
-                        </form>
-                        <li><a class="dropdown-item" href="{% url 'signup' %}">Регистрация</a></li>
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Вход</a></li>
+                            <li><a class="dropdown-item" href="{% url 'signup' %}">Регистрация</a></li>
                         {% endif %}
 
 
