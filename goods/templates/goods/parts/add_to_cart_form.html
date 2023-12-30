@@ -2,10 +2,57 @@
 {% include 'goods/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path button_text='В корзину' %}
 {% endcomment %}
 
-<form class="to-cart-form" method="post" action="{% url 'add-to-cart' %}">
+<form id="to-cart-form" method="post" action="{% url 'add-to-cart' %}">
     {% csrf_token %}
     <input type="hidden" name="user_id" value="{{ user_id }}">
     <input type="hidden" name="goods_id" value="{{ goods_id }}">
     <input type="hidden" name="referer" value="{{ referer }}">
-    <button class="btn btn-primary">{{ button_text }}</button>
+    <button id="to-cart-button" class="btn btn-primary">{{ button_text }}</button>
 </form>
+
+
+<script>
+    $( document ).ready(function() {
+        let $toCartForm = $("#to-cart-form");
+
+        function addGoodsToCart(){
+                 $.ajax({
+                    type: "POST",
+                    url: {% url 'add-to-cart' %},
+                    data: $toCartForm.serialize(),
+                });
+        }
+
+        function requestDataFromServerWhetherEnoughGoods(){
+                $.ajax({
+                    type: "POST",
+                    url: {% url 'are-enough-in-stock' %},
+                    data: $toCartForm.serialize(),
+                    success: addGoodsToCart(),
+                    error: notifyOnShortage
+                });
+
+        }
+
+
+        function addAddToCartFormListener(){
+            $toCartForm.on( "submit", function(event) {
+                event.stopPropagation();
+                event.stopPropagation();
+
+                requestDataFromServerWhetherEnoughGoods();
+            });
+        });
+
+
+        function notifyOnShortage(){
+            alert("Not enough");
+        }
+
+        function addEventListeners(){
+            addAddToCartFormListener();
+        }
+
+        addEventListeners();
+    });
+</script>
