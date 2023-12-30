@@ -18,13 +18,18 @@
         </tr>
         </thead>
         <tbody>
-        {% for obj in object_list %}
+        {% for object in object_list %}
         <tr>
-            <td>{{ obj.goods.id }}</td>
-            <td>{{ obj.goods.name }} {% if obj.goods.color %} ({{ obj.goods.color }}) {% endif %}</td>
-            <td class="text-center">{{ obj.goods.price }}</td>
-            <td class="text-center">{% include "carts/plus_minus.html" with data_goods="{{ obj.goods.id }}" %}</td>
-            <td class="text-center">{{ obj.quantity }}</td>
+            <td>{{ object.goods.id }}</td>
+            <td>{{ object.goods.name }} {% if object.goods.color %} ({{ object.goods.color }}) {% endif %}</td>
+            <td class="text-center">{{ object.goods.price }}</td>
+<!--            <td class="text-center">{% include "carts/plus_minus.html" with data_goods="{{ object.goods.id }}" %}</td>-->
+            <td class="text-center">
+                {{ user.id }}
+            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path %}
+            </td>
+
+            <td class="text-center">{{ object.quantity }}</td>
         </tr>
         {% endfor %}
 

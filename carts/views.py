@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 from django.contrib import messages
 
+from accounts.models import CustomUser
 from carts.forms import OrderForm
 from carts.models import Cart
 from goods.models import Goods
@@ -36,7 +37,7 @@ class AddToCart(View):
         goods_id = request.POST.get('goods_id')
         referer = request.POST.get('referer')
 
-        user = User.objects.filter(pk=user_id).first()
+        user = CustomUser.objects.filter(pk=user_id).first()
         goods = Goods.objects.filter(pk=goods_id).first()
 
         if user and goods:
