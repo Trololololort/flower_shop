@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.db import models
 
 from general.model_mixins import UserMixin
@@ -18,16 +17,10 @@ class Cart(UserMixin,
                                    default=0,
                                    verbose_name="Количество")
 
-    # ordered = models.DateTimeField(verbose_name="Заказано", null=True)
-    # order_uuid = models.UUIDField(verbose_name="ID заказа",
-    #                               null=True,
-    #                               )
-
     order = models.ForeignKey("orders.Order",
                               on_delete=models.CASCADE,
                               null=True,
-                              blank=True,)
-
+                              blank=True, )
 
     def price(self):
         return self.goods.price
@@ -37,6 +30,4 @@ class Cart(UserMixin,
 
     class Meta:
         verbose_name = "Товар в корзине"
-        verbose_name_plural = "Товары в корзине"
-
-
+        verbose_name_plural = "Товары в корзинах"
