@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, View
 from django.contrib import messages
 
 from accounts.models import CustomUser
-from carts.const import STATUC_CODES
+
 from carts.forms import OrderForm
 from carts.models import Cart
 from goods.models import Goods

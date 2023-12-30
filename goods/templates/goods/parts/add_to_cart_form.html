@@ -18,7 +18,7 @@
         function addGoodsToCart(){
                  $.ajax({
                     type: "POST",
-                    url: {% url 'add-to-cart' %},
+                    url: "{% url 'add-to-cart' %}",
                     data: $toCartForm.serialize(),
                 });
         }
@@ -26,7 +26,7 @@
         function requestDataFromServerWhetherEnoughGoods(){
                 $.ajax({
                     type: "POST",
-                    url: {% url 'are-enough-in-stock' %},
+                    url: "{% url 'are-enough-in-stock' %}",
                     data: $toCartForm.serialize(),
                     success: addGoodsToCart(),
                     error: notifyOnShortage
@@ -42,7 +42,7 @@
 
                 requestDataFromServerWhetherEnoughGoods();
             });
-        });
+        };
 
 
         function notifyOnShortage(){
@@ -50,6 +50,7 @@
         }
 
         function addEventListeners(){
+            debugger;
             addAddToCartFormListener();
         }
 
