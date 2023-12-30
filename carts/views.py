@@ -6,6 +6,7 @@ from django.views.generic import TemplateView, View
 from django.contrib import messages
 
 from accounts.models import CustomUser
+from carts.const import STATUC_CODES
 from carts.forms import OrderForm
 from carts.models import Cart
 from goods.models import Goods
@@ -45,7 +46,7 @@ class AddToCart(View):
             the_goods_already_in_cart = Cart.objects.filter(user=user, goods=goods, order=None).first()
 
             if the_goods_already_in_cart:
-                the_goods_already_in_cart.quantity=(the_goods_already_in_cart.quantity + 1)
+                the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + 1)
                 the_goods_already_in_cart.save()
             else:
                 Cart.objects.create(user=user, goods=goods, quantity=1)

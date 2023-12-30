@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 from general.views import Test404View
 from carts.views import CartDetailView, AddToCart
 
-from goods.views import GoodsDetailView, GoodsListView, IsEnoughInStock
+from goods.views import GoodsDetailView, GoodsListView, AreThereEnoughGoodsToAddToCart
 from orders.views import OrdersListView, OrderDetailView, CreateOrder, DeleteOrder
 
 urlpatterns = [
@@ -39,7 +39,7 @@ urlpatterns = [
                   path("orders/", OrdersListView.as_view(), name="orders-list"),
                   path("accounts/", include("accounts.urls")),
                   path("accounts/", include("django.contrib.auth.urls")),
-                  path("is-enough-in-stock/", IsEnoughInStock.as_view(), name="is-enough-in-stock"),
+                  path("is-enough-in-stock/", AreThereEnoughGoodsToAddToCart.as_view(), name="is-enough-in-stock"),
                   path("", GoodsListView.as_view(), name="home"),
                   path("test404", Test404View.as_view(), name="test404"),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,

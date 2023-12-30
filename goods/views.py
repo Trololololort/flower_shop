@@ -4,7 +4,10 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
 from django.shortcuts import get_object_or_404
+
+from accounts.models import CustomUser
 from goods.models import Goods
+from .const import STATUC_CODES
 from .forms import GoodsSortFilterForm
 
 
@@ -64,11 +67,20 @@ class GoodsListView(ListView):
         return context_data
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class IsEnoughInStock(View):
+class AreThereEnoughGoodsToAddToCart(View):
+
     def post(self, request):
-        in_stock = Goods.in_stock.get(pk=1)
-        if in_stock:
-            return HttpResponse(status=204)
+        user_id = request.POST.get('user_id')
+        goods_id = request.POST.get('goods_id')
+
+        user = CustomUser.objects.filter(pk=user_id).first()
+        goods = Goods.objects.filter(pk=goods_id).first()
+
+        enough_goods = True
+
+        if enough_goods:
+            result = HttpResponse(STATUC_CODES.ENOUGH["message"], status=STATUC_CODES.ENOUGH["code"])
         else:
-            return HttpResponse("Out of stock", status=404)
+            result = HttpResponse(STATUC_CODES.LACK["message"], status=STATUC_CODES.LACK["code"])
+
+        return result
