@@ -13,7 +13,8 @@
             <th scope="col">Артикул</th>
             <th scope="col">Наименование</th>
             <th class="text-center" scope="col">Цена</th>
-            <th class="text-center" scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
             <th class="text-center" scope="col">Количество</th>
         </tr>
         </thead>
@@ -23,21 +24,18 @@
             <td>{{ object.goods.id }}</td>
             <td>{{ object.goods.name }} {% if object.goods.color %} ({{ object.goods.color }}) {% endif %}</td>
             <td class="text-center">{{ object.goods.price }}</td>
-<!--            <td class="text-center">{% include "carts/plus_minus.html" with data_goods="{{ object.goods.id }}" %}</td>-->
-            <td class="text-center">
-                {{ user.id }}
-            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path %}
+            <td class="text-end">
+            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path button_text="+" %}
+            </td>
+
+            <td class="text-start">
+            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path button_text="-" %}
             </td>
 
             <td class="text-center">{{ object.quantity }}</td>
         </tr>
         {% endfor %}
 
-        <tr>
-            <td class="bg-secondary bg-gradient" colspan="2">Сумма, руб.</td>
-            <td class="bg-secondary bg-gradient text-center">{{ total }}</td>
-            <td class="bg-secondary bg-gradient"></td>
-        </tr>
 
         {% include 'carts/parts/total.html' %}
 
