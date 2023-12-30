@@ -1,13 +1,12 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
-
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.urls import reverse_lazy
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.views import generic, View
 
-from accounts.forms import LoginForm, PassvordValidationForm, RegistrationForm
+from accounts.forms import LoginForm, RegistrationForm
 from accounts.models import CustomUser
 
 UserModel = get_user_model()
@@ -45,11 +44,16 @@ class ExtendedLoginView(LoginView):
     template_name = "accounts/login.html"
 
 
-class PasswordValidationView(LoginRequiredMixin, View):
-
-    def get(self, request):
-        context = {'form': PassvordValidationForm()}
-        return render(request, "accounts/password_validation.html", context)
+class IsLoginOccupiedView(View):
 
     def post(self, request):
-        a = 0
+        status_code = 204
+
+        login = request.POST.get("login")
+
+        occupied_login = CustomUser.objects.filter(username=login).first()
+
+        if occupied_login:
+            status_code = 403
+
+        return HttpResponse(status=status_code)

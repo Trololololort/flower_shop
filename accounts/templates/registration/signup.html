@@ -1,10 +1,111 @@
 {% extends "general/parts/base.html" %}
 
 {% block content %}
-  <h2>Регистрация</h2>
-  <form method="post">
+<h2>Регистрация</h2>
+<form id="sign-up-form" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Зарегистрироваться</button>
-  </form>
+    <button id="sign-up-button" type="submit">Зарегистрироваться</button>
+</form>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    let $signUpForm = $("#sign-up-form");
+
+    function clearErrorMessages(){
+      $(".error").remove();
+    }
+
+    function isPasswordRepeated(){
+      let $password = $("#id_password").val();
+      let $repeatedPassword = $("#id_repeated_password").val();
+
+      let result = true;
+
+      if ($password != $repeatedPassword) {
+        return false;
+      }
+
+      return result;
+    }
+
+    function showPasswordRepeatedErrorMessage(){
+      let $repeatedPassword = $("#id_repeated_password");
+      $("<p style='color: red;' class='error'>Повтор пароля не совпадает с паролем.</p>").insertBefore($repeatedPassword);
+    }
+
+    function showLoginOccupiedErrorMessage(){
+        let $login = $("#id_login");
+        $("<p style='color: red;' class='error'>Логин занят.</p>").insertBefore($login);
+    }
+
+
+    function isLoginOccupied(){
+       $.ajax({
+        type: "POST",
+        url: "{% url 'is_login_occupied' %}",
+        data: $signUpForm.serialize(),
+        success: redirectHome,
+        error: showLoginOccupiedErrorMessage,
+      });
+    }
+
+    function showLoginErrorMessage(){
+      let $login = $("id_login");
+      $("<p style='color: red;' class='error'>Логин занят.</p>").insertBefore($login);
+    }
+
+
+
+    function validateFormAndShowErrorMessages(){
+        let formValid = true;
+        event.preventDefault();
+        event.stopPropagation();
+
+        let passwordRepeated = isPasswordRepeated();
+
+        if (!passwordRepeated) {
+          showPasswordRepeatedErrorMessage();
+
+          return false;
+        }
+
+        let loginFree = isLoginOccupied();
+
+        if (!loginFree) {
+          showLoginErrorMessage();
+          formValid = false;
+        }
+
+        return formValid;
+    }
+
+    function redirectHome(){
+        window.location.href = "{% url 'home' %}";
+    }
+
+    function sendPostRequestToSignup(){
+      $.ajax({
+        type: "POST",
+        url: "{% url 'signup' %}",
+        data: $signUpForm.serialize(),
+        success: redirectHome
+      });
+    }
+
+    $( document ).ready(function() {
+
+      let $signUpForm = $("#sign-up-form");
+      $signUpForm.on( "submit", function( event ) {
+        clearErrorMessages();
+        let formValid = validateFormAndShowErrorMessages();
+
+        if (formValid) {
+            sendPostRequestToSignup();
+        }
+      });
+    });
+</script>
 {% endblock %}
