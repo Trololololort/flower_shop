@@ -24,6 +24,7 @@
         }
 
         function requestDataFromServerWhetherEnoughGoods(){
+                debugger;
                 $.ajax({
                     type: "POST",
                     url: "{% url 'are-enough-in-stock' %}",
@@ -50,7 +51,6 @@
         }
 
         function addEventListeners(){
-            debugger;
             addAddToCartFormListener();
         }
 

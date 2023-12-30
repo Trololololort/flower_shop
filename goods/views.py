@@ -70,13 +70,10 @@ class GoodsListView(ListView):
 class AreThereEnoughGoodsToAddToCart(View):
 
     def post(self, request):
-        user_id = request.POST.get('user_id')
         goods_id = request.POST.get('goods_id')
-
-        user = CustomUser.objects.filter(pk=user_id).first()
         goods = Goods.objects.filter(pk=goods_id).first()
 
-        enough_goods = True
+        enough_goods = False
 
         if enough_goods:
             result = HttpResponse(STATUC_CODES.ENOUGH["message"], status=STATUC_CODES.ENOUGH["code"])
