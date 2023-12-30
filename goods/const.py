@@ -13,5 +13,5 @@ class STATUC_CODES(Enum):
     # достаточно ли товара для добавления
     # в корзину.
 
-    ENOUGH = {"code": 204, "message": "Enough goods"},
-    LACK = {"code": 409, "message": "Lack of goods"},
+    ENOUGH = {"code": 204, "message": "Enough goods"}
+    LACK = {"code": 409, "message": "Lack of goods"}

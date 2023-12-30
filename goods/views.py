@@ -9,6 +9,7 @@ from accounts.models import CustomUser
 from goods.models import Goods
 from .const import STATUC_CODES
 from .forms import GoodsSortFilterForm
+from .utils import are_there_enough_goods
 
 
 class GoodsDetailView(DetailView):
@@ -71,13 +72,13 @@ class AreThereEnoughGoodsToAddToCart(View):
 
     def post(self, request):
         goods_id = request.POST.get('goods_id')
-        goods = Goods.objects.filter(pk=goods_id).first()
 
-        enough_goods = False
+
+        enough_goods = are_there_enough_goods(request.user, goods_id)
 
         if enough_goods:
-            result = HttpResponse(STATUC_CODES.ENOUGH["message"], status=STATUC_CODES.ENOUGH["code"])
+            result = HttpResponse(STATUC_CODES.ENOUGH.value["message"], status=STATUC_CODES.ENOUGH.value["code"])
         else:
-            result = HttpResponse(STATUC_CODES.LACK["message"], status=STATUC_CODES.LACK["code"])
+            result = HttpResponse(STATUC_CODES.LACK.value["message"], status=STATUC_CODES.LACK.value["code"])
 
         return result

@@ -15,30 +15,31 @@
     $( document ).ready(function() {
         let $toCartForm = $("#to-cart-form");
 
-        function addGoodsToCart(){
-                 $.ajax({
-                    type: "POST",
-                    url: "{% url 'add-to-cart' %}",
-                    data: $toCartForm.serialize(),
-                });
+        function addGoodsToCart(data){
+
+             $.ajax({
+                type: "POST",
+                url: "{% url 'add-to-cart' %}",
+                data: $toCartForm.serialize(),
+            });
         }
 
         function requestDataFromServerWhetherEnoughGoods(){
-                debugger;
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'are-enough-in-stock' %}",
-                    data: $toCartForm.serialize(),
-                    success: addGoodsToCart(),
-                    error: notifyOnShortage
-                });
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'are-enough-in-stock' %}",
+                data: $toCartForm.serialize(),
+                success: addGoodsToCart,
+                error: notifyOnShortage
+            });
 
         }
 
 
         function addAddToCartFormListener(){
             $toCartForm.on( "submit", function(event) {
-                event.stopPropagation();
+                event.preventDefault();
                 event.stopPropagation();
 
                 requestDataFromServerWhetherEnoughGoods();
@@ -46,7 +47,7 @@
         };
 
 
-        function notifyOnShortage(){
+        function notifyOnShortage(data){
             alert("Not enough");
         }
 

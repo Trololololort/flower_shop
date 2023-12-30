@@ -9,6 +9,7 @@ from accounts.models import CustomUser
 
 from carts.forms import OrderForm
 from carts.models import Cart
+from carts.utils import get_cart_contents
 from goods.models import Goods
 
 
@@ -24,8 +25,7 @@ class CartDetailView(LoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = kwargs.get('user')
-        object_list = Cart.objects.filter(user=user).filter(order=None)
+        object_list = get_cart_contents(self.request.user)
         context["object_list"] = object_list
         context["order_form"] = OrderForm()
         context["total"] = get_total(object_list)
