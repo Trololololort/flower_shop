@@ -26,13 +26,17 @@ class SignUpView(generic.View):
         email = request.POST.get('email')
         rules = bool(request.POST.get('rules'))
 
-        CustomUser.objects.create(last_name=surname,
+        user = CustomUser.objects.create(last_name=surname,
                                   first_name=name,
                                   partonymic=partonymic,
                                   username=login,
                                   password=password,
                                   email=email,
                                   rules=rules)
+        user.set_password(user.password) # Сохранить хэшированный пароль.
+        user.save()
+
+
 
         messages.add_message(request, messages.INFO, "Создан пользователь {}.".format(login))
 
