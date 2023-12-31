@@ -13,6 +13,7 @@
 {% block script %}
 <script>
     let $signUpForm = $("#sign-up-form");
+    let $signUpButton = $("#sign-up-button");
 
     function clearErrorMessages(){
       $(".error").remove();
@@ -44,11 +45,11 @@
 
     function isLoginOccupied(){
        $.ajax({
-        type: "POST",
-        url: "{% url 'is_login_occupied' %}",
-        data: $signUpForm.serialize(),
-        success: redirectHome,
-        error: showLoginOccupiedErrorMessage,
+            type: "POST",
+            url: "{% url 'is_login_occupied' %}",
+            data: $signUpForm.serialize(),
+            success: signUp,
+            error: showLoginOccupiedErrorMessage,
       });
     }
 
@@ -57,12 +58,8 @@
       $("<p style='color: red;' class='error'>Логин занят.</p>").insertBefore($login);
     }
 
-
-
     function validateFormAndShowErrorMessages(){
         let formValid = true;
-        event.preventDefault();
-        event.stopPropagation();
 
         let passwordRepeated = isPasswordRepeated();
 
@@ -71,41 +68,25 @@
 
           return false;
         }
+        debugger;
+        isLoginOccupied();
 
-        let loginFree = isLoginOccupied();
-
-        if (!loginFree) {
-          showLoginErrorMessage();
-          formValid = false;
-        }
-
-        return formValid;
     }
 
-    function redirectHome(){
-        window.location.href = "{% url 'home' %}";
+    function signUp(){
+        $signUpForm.submit();
     }
 
-    function sendPostRequestToSignup(){
-      $.ajax({
-        type: "POST",
-        url: "{% url 'signup' %}",
-        data: $signUpForm.serialize(),
-        success: redirectHome
-      });
+    function addEventListeners(){
+        $signUpButton.on( "click", function( event ) {
+            event.preventDefault();
+            clearErrorMessages();
+            validateFormAndShowErrorMessages();
+        });
     }
 
     $( document ).ready(function() {
-
-      let $signUpForm = $("#sign-up-form");
-      $signUpForm.on( "submit", function( event ) {
-        clearErrorMessages();
-        let formValid = validateFormAndShowErrorMessages();
-
-        if (formValid) {
-            sendPostRequestToSignup();
-        }
-      });
+      addEventListeners();
     });
 </script>
 {% endblock %}
