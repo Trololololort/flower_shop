@@ -13,21 +13,17 @@
     <input type="hidden" name="goods_id" value="{{ goods_id }}">
     <input type="hidden" name="addend" value="{{ addend|default:'1' }}">
     <input type="hidden" name="referer" value="{{ referer }}">
-    <button style="min-width: 2.5em;" class="btn btn-primary">{{ button_text|default:"В корзину" }}</button>
+    <button id="to-cart-button" style="min-width: 2.5em;" class="btn btn-primary">{{ button_text|default:"В корзину" }}</button>
 </form>
 
 
 <script>
     $( document ).ready(function() {
         let $toCartForm = $("#to-cart-form");
+        let $toCcartButton = $("#to-cart-button");
 
         function addGoodsToCart(data){
-
-             $.ajax({
-                type: "POST",
-                url: "{% url 'add-to-cart' %}",
-                data: $toCartForm.serialize(),
-            });
+            $toCartForm.submit();
         }
 
         function requestDataFromServerWhetherEnoughGoods(){
@@ -43,7 +39,7 @@
 
 
         function addAddToCartFormListener(){
-            $toCartForm.on( "submit", function(event) {
+            $toCcartButton.on( "click", function(event) {
                 event.preventDefault();
                 event.stopPropagation();
 
