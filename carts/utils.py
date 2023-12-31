@@ -6,3 +6,5 @@ def get_cart_contents(user):
     object_list = Cart.objects.filter(user=user).filter(order=None)
 
     return object_list
+
+

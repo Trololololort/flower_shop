@@ -44,10 +44,16 @@ class AddToCart(LoginRequiredMixin,
 
             if the_goods_already_in_cart:
                 the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + addend)
-                the_goods_already_in_cart.save()
+
+                if the_goods_already_in_cart.quantity == 0:
+                    the_goods_already_in_cart.delete()
+                else:
+                    the_goods_already_in_cart.save()
+
             else:
                 Cart.objects.create(user=request.user, goods=goods, quantity=1)
-            messages.add_message(request, messages.INFO, 'Товар "{}" добавлен в корзину'.format(goods.name))
+            act = "добавлен в корзину" if addend > 0 else "убран из корзины"
+            messages.add_message(request, messages.INFO, 'Товар {} {}.'.format(goods.name, act))
             return redirect(referer)
         elif not goods:
             return HttpResponse("Wrong goods id", status=400)

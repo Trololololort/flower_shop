@@ -5,7 +5,8 @@ from goods.models import Goods
 def are_there_enough_goods(user, goods_id):
     goods = Goods.objects.filter(pk=goods_id).first()
     all_goods_in_cart = get_cart_contents(user)
-    goods_in_cart = all_goods_in_cart.filter(pk=goods_id).values_list("quantity", flat=True)
+    goods_in_cart = all_goods_in_cart.filter(goods=goods_id).values_list("quantity", flat=True)
+
 
     TO_BE_ORDERED = 1
 
