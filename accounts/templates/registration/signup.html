@@ -59,7 +59,11 @@
     }
 
     function validateFormAndShowErrorMessages(){
-        let formValid = true;
+        let formValid = $signUpForm[0].reportValidity()
+
+        if (!formValid) {
+            return false;
+        }
 
         let passwordRepeated = isPasswordRepeated();
 
@@ -68,7 +72,7 @@
 
           return false;
         }
-        debugger;
+
         isLoginOccupied();
 
     }
