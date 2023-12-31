@@ -1,4 +1,4 @@
-it {% extends 'general/parts/base.html' %}
+{% extends 'general/parts/base.html' %}
 
 {% block content %}
 <div class="form-signin w-100 m-auto">
@@ -8,7 +8,7 @@ it {% extends 'general/parts/base.html' %}
         {{ form.as_p }}
 
         <button class="btn btn-primary w-100 py-2" type="submit">Вход</button>
-        <p><a href="{% url 'signup' %}">Регистрация</a></p>
+        <p class="mt-3"><a href="{% url 'signup' %}">Регистрация</a></p>
 
     </form>
 </div>

@@ -4,6 +4,7 @@
 {% include 'general/parts/message.html' %}
 
 <div class="table-responsive small">
+    {% if object_list %}
     <table class="table table-striped table-sm">
         <thead>
         <tr>
@@ -28,12 +29,14 @@
             </td>
         </tr>
         {% endfor %}
-
-
         </tbody>
     </table>
+    {% include 'general/parts/pagination.html' %}
+    {% else %}
+        <div class="display-6 text-center mb-4">Нет заказов.</div>
+    {% endif %}
 </div>
 
-{% include 'general/parts/pagination.html' %}
+
 
 {% endblock %}

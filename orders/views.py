@@ -11,18 +11,20 @@ from orders.models import Order
 from orders.utils import create_order
 
 
-class OrdersListView(ListView):
+class OrdersListView(LoginRequiredMixin,
+                     ListView):
     model = Order
     template_name = "orders/order_list.html"
     paginate_by = 5
 
     def get_queryset(self):
-        result = Order.objects.all().order_by(
+        result = Order.objects.filter(user=self.request.user).order_by(
             "-ordered")
         return result
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(LoginRequiredMixin,
+                      DetailView):
     model = Order
     template_name = "orders/order_detail.html"
 
@@ -50,7 +52,7 @@ class CreateOrder(LoginRequiredMixin,
 
         create_order(user, request)
 
-        return redirect("home")
+        return redirect("orders-list")
 
 
 class DeleteOrder(LoginRequiredMixin,
