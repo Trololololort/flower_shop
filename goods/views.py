@@ -73,7 +73,6 @@ class AreThereEnoughGoodsToAddToCart(View):
     def post(self, request):
         goods_id = request.POST.get('goods_id')
 
-
         enough_goods = are_there_enough_goods(request.user, goods_id)
 
         if enough_goods:

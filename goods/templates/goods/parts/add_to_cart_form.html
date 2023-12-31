@@ -1,13 +1,19 @@
 {% comment %}
-{% include 'goods/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path button_text='В корзину' %}
+
+Необязательные: addend, button_text
+
+{% include 'goods/parts/add_to_cart_form.html' with goods_id=goods.id referer=request.get_full_path addend=-1 button_text="+" %}
+
 {% endcomment %}
 
-<form id="to-cart-form" method="post" action="{% url 'add-to-cart' %}">
+
+
+<form id="to-cart-form" class="to-cart-form" method="post" action="{% url 'add-to-cart' %}">
     {% csrf_token %}
-    <input type="hidden" name="user_id" value="{{ user_id }}">
     <input type="hidden" name="goods_id" value="{{ goods_id }}">
+    <input type="hidden" name="addend" value="{{ addend|default:'1' }}">
     <input type="hidden" name="referer" value="{{ referer }}">
-    <button id="to-cart-button" class="btn btn-primary">{{ button_text }}</button>
+    <button style="min-width: 2.5em;" class="btn btn-primary">{{ button_text|default:"В корзину" }}</button>
 </form>
 
 
@@ -24,8 +30,7 @@
             });
         }
 
-        function requestDataFromServerWhetherEnoughGoods(){
-
+        function requestDataFromServerWhetherEnoughGoods(){ы
             $.ajax({
                 type: "POST",
                 url: "{% url 'are-enough-in-stock' %}",
@@ -48,7 +53,7 @@
 
 
         function notifyOnShortage(data){
-            alert("Not enough");
+            alert("Товар закончился.");
         }
 
         function addEventListeners(){

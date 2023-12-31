@@ -1,11 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
-from django.contrib import messages
-
-from accounts.models import CustomUser
 
 from carts.forms import OrderForm
 from carts.models import Cart
@@ -32,28 +29,25 @@ class CartDetailView(LoginRequiredMixin,
         return context
 
 
-class AddToCart(View):
+class AddToCart(LoginRequiredMixin,
+                View):
     def post(self, request):
-        user_id = request.POST.get('user_id')
         goods_id = request.POST.get('goods_id')
+        addend = int(request.POST.get('addend'))
         referer = request.POST.get('referer')
 
-        user = CustomUser.objects.filter(pk=user_id).first()
         goods = Goods.objects.filter(pk=goods_id).first()
 
-        if user and goods:
+        if goods:
 
-            the_goods_already_in_cart = Cart.objects.filter(user=user, goods=goods, order=None).first()
+            the_goods_already_in_cart = Cart.objects.filter(user=request.user, goods=goods, order=None).first()
 
             if the_goods_already_in_cart:
-                the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + 1)
+                the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + addend)
                 the_goods_already_in_cart.save()
             else:
-                Cart.objects.create(user=user, goods=goods, quantity=1)
+                Cart.objects.create(user=request.user, goods=goods, quantity=1)
             messages.add_message(request, messages.INFO, 'Товар "{}" добавлен в корзину'.format(goods.name))
             return redirect(referer)
-        else:
-            if not user:
-                return HttpResponse("Wrong user", status=400)
-            elif not goods:
-                return HttpResponse("Wrong goods id", status=400)
+        elif not goods:
+            return HttpResponse("Wrong goods id", status=400)

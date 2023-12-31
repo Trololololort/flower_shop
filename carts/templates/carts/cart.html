@@ -29,7 +29,7 @@
             </td>
 
             <td class="text-start">
-            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path button_text="-" %}
+            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.id referer=request.get_full_path addend=-1 button_text="-" %}
             </td>
 
             <td class="text-center">{{ object.quantity }}</td>

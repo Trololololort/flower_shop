@@ -1,9 +1,11 @@
 {% extends 'general/parts/base.html' %}
-{% load cart_extras %}
 
 
 {% block content %}
-{% cart_script user %}
+
+
+{% include 'general/parts/message.html' %}
+
 <div class="card text-center">
     <div class="card-header">
         <img class="w-100" src="{{ object.photo.url }}" alt="{{ object.name }}"/>
@@ -19,18 +21,10 @@
 
     </div>
 
-    {% include 'general/parts/message.html' %}
-
-
     {% if user.is_authenticated %}
     <div class="card-footer text-body-secondary">
-        {% include 'goods/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path button_text='В корзину' %}
+        {% include 'goods/parts/add_to_cart_form.html' with goods_id=object.id referer=request.get_full_path %}
     </div>
     {% endif %}
 </div>
-{% endblock %}
-
-{% block script %}
-    {% url 'is-enough-in-stock' as the_url %}
-    {% include 'goods/parts/is_enough_in_stock.html' with is_enough_in_stock_url=the_url %}
 {% endblock %}
