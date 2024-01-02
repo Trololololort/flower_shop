@@ -47,7 +47,7 @@ class CreateOrder(LoginRequiredMixin,
             validate_password(password=password, user=user)
         except ValidationError:
             messages.add_message(request, messages.INFO, "Неверный пароль")
-            return redirect("cart-detail", user.id)
+            return redirect("cart-detail")
 
 
         create_order(user, request)
