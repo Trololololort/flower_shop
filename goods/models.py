@@ -1,3 +1,6 @@
+from decimal import Decimal
+
+from django.core.validators import MinValueValidator
 from django.db import models
 
 from general.models import NameMixin
@@ -36,10 +39,11 @@ class Goods(NameMixin, models.Model):
                                  verbose_name="Дата добавления")
 
     # 500 x 500 px.
-    photo = models.ImageField(verbose_name="Фото")
+    photo = models.ImageField(verbose_name="Фото", blank=False)
     price = models.DecimalField(max_digits=10,
                                 decimal_places=2,
-                                verbose_name="Цена")
+                                verbose_name="Цена",
+                                validators=[MinValueValidator(Decimal('0.01'))])
     origin = models.ForeignKey(
         "Country",
         on_delete=models.CASCADE,

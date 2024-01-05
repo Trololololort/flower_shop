@@ -12,7 +12,7 @@ class Cart(UserMixin,
     # Теоретически, возможна продажа весового товара (например, удобрений).
     # Но для интернет-магазина это довольно странно. А т.к. в ТЗ ничего не сказано,
     # поэтому трактуем самостоятельно: только штучный.
-    quantity = models.IntegerField(blank=False,
+    quantity = models.PositiveIntegerField(blank=False,
                                    null=False,
                                    default=0,
                                    verbose_name="Количество")
