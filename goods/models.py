@@ -24,6 +24,7 @@ class Country(NameMixin, models.Model):
         verbose_name = "Страна"
         verbose_name_plural = "Страны"
 
+
 class GoodsManager(models.Manager):
     def get_queryset(self):
         # В наличии и упорядоченные по убыванию даты добавления товара.
@@ -31,8 +32,7 @@ class GoodsManager(models.Manager):
 
 
 class Goods(NameMixin, models.Model):
-
-    objects = models.Manager() # По умолчанию. Нужен для админки.
+    objects = models.Manager()  # По умолчанию. Нужен для админки.
     in_stock = GoodsManager()
 
     added = models.DateTimeField(auto_now_add=True,

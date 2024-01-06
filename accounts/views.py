@@ -1,13 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import generic, View
 
 from accounts.forms import LoginForm, RegistrationForm
-from accounts.models import CustomUser
 from accounts.service import create_user, is_login_occupied
 
 UserModel = get_user_model()

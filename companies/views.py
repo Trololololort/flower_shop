@@ -11,5 +11,6 @@ class AboutCompanyView(TemplateView):
         context["object_list"] = Goods.in_stock.all()[:5]
         return context
 
+
 class ContactsView(TemplateView):
     template_name = "companies/contacts.html"

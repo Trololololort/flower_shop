@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.db import transaction
 
 from carts.models import Cart

@@ -8,7 +8,6 @@ def create_user(surname,
                 email,
                 rules,
                 password):
-
     user = CustomUser.objects.create(last_name=surname,
                                      first_name=name,
                                      partonymic=partonymic,

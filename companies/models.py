@@ -19,4 +19,3 @@ class Company(NameMixin,
     class Meta:
         verbose_name = "Компания"
         verbose_name_plural = "Компании"
-

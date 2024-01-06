@@ -5,9 +5,7 @@ from django.shortcuts import redirect
 from django.views.generic import TemplateView, View
 
 from carts.forms import OrderForm
-from carts.models import Cart
 from carts.service import get_cart_contents, add_goods_to_cart
-from goods.models import Goods
 
 
 def get_total(a_queryset):

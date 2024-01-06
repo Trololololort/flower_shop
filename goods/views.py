@@ -1,11 +1,8 @@
 from django.http import Http404, HttpResponse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DetailView, ListView
 from django.shortcuts import get_object_or_404
+from django.views import View
+from django.views.generic import DetailView, ListView
 
-from accounts.models import CustomUser
 from goods.models import Goods
 from .const import STATUS_CODES
 from .forms import GoodsSortFilterForm

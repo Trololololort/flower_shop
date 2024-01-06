@@ -5,7 +5,6 @@ from general.model_mixins import UserMixin
 
 class Cart(UserMixin,
            models.Model):
-
     """
     Пользователь добавляет товар в корзину.
     Пока поле order пустое, товар в корзине.
@@ -23,9 +22,9 @@ class Cart(UserMixin,
     # Но для интернет-магазина это довольно странно. А т.к. в ТЗ ничего не сказано,
     # поэтому трактуем самостоятельно: только штучный.
     quantity = models.PositiveIntegerField(blank=False,
-                                   null=False,
-                                   default=0,
-                                   verbose_name="Количество")
+                                           null=False,
+                                           default=0,
+                                           verbose_name="Количество")
 
     order = models.ForeignKey("orders.Order",
                               on_delete=models.CASCADE,

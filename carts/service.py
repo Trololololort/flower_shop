@@ -1,6 +1,5 @@
 from carts.models import Cart
 from goods.models import Goods
-from goods.const import STATUS_CODES
 
 
 def get_cart_contents(user):
@@ -38,6 +37,3 @@ def add_goods_to_cart(goods_id, user, addend):
         message = "Wrong goods id"
 
     return {"status": status, "message": message}
-
-
-
