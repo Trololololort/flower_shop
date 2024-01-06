@@ -23,7 +23,7 @@
 
     {% if user.is_authenticated %}
     <div class="card-footer text-body-secondary">
-        {% include 'goods/parts/add_to_cart_form.html' with goods_id=object.id referer=request.get_full_path %}
+        {% include 'carts/parts/add_to_cart_form.html' with goods_id=object.id referer=request.get_full_path %}
     </div>
     {% endif %}
 </div>

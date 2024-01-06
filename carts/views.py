@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, View
 
 from carts.forms import OrderForm
 from carts.models import Cart
-from carts.service import get_cart_contents
+from carts.service import get_cart_contents, add_goods_to_cart
 from goods.models import Goods
 
 
@@ -47,26 +47,11 @@ class AddToCart(LoginRequiredMixin,
         goods_id = request.POST.get('goods_id')
         addend = int(request.POST.get('addend'))
 
+
         assert (addend == 1 or addend == -1)
 
-        goods = Goods.objects.filter(pk=goods_id).first()
-
-        if goods:
-
-            the_goods_already_in_cart = Cart.objects.filter(user=request.user, goods=goods, order=None).first()
-
-            if the_goods_already_in_cart:
-                the_goods_already_in_cart.quantity = (the_goods_already_in_cart.quantity + addend)
-
-                if the_goods_already_in_cart.quantity == 0:
-                    the_goods_already_in_cart.delete()
-                else:
-                    the_goods_already_in_cart.save()
-
-            else:
-                Cart.objects.create(user=request.user, goods=goods, quantity=1)
-            act = "добавлен в корзину" if addend > 0 else "убран из корзины"
-            messages.add_message(request, messages.INFO, 'Товар "{}" {}.'.format(goods.name, act))
+        status = add_goods_to_cart(goods_id, request.user, addend)
+        if status == 200:
             return redirect(request.META['HTTP_REFERER'])
-        elif not goods:
-            return HttpResponse("Wrong goods id", status=400)
+        else:
+            return HttpResponse("Wrong goods id", status=status)

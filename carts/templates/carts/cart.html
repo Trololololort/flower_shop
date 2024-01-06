@@ -25,11 +25,11 @@
             <td>{{ object.goods.name }} {% if object.goods.color %} ({{ object.goods.color }}) {% endif %}</td>
             <td class="text-center">{{ object.goods.price }}</td>
             <td class="text-end">
-            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.goods.id referer=request.get_full_path button_text="+" %}
+            {% include 'carts/parts/add_to_cart_form.html' with user_id=user goods_id=object.goods.id referer=request.get_full_path button_text="+" %}
             </td>
 
             <td class="text-start">
-            {% include 'goods/parts/add_to_cart_form.html' with user_id=user goods_id=object.goods.id referer=request.get_full_path addend=-1 button_text="-" %}
+            {% include 'carts/parts/add_to_cart_form.html' with user_id=user goods_id=object.goods.id referer=request.get_full_path addend=-1 button_text="-" %}
             </td>
 
             <td class="text-center">{{ object.quantity }}</td>

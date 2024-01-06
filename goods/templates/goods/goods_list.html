@@ -43,7 +43,7 @@
 
                 {% if user.is_authenticated %}
                 <div class="card-footer py-3">
-                    {% include 'goods/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path button_text='В корзину' %}
+                    {% include 'carts/parts/add_to_cart_form.html' with user_id=user.id goods_id=object.id referer=request.get_full_path button_text='В корзину' %}
                 </div>
                 {% endif %}
             </div>
