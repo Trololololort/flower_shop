@@ -57,9 +57,7 @@ class IsLoginOccupiedView(View):
 
     def post(self, request):
         """
-
-        @param request:
-        @return:
+        Для проверки занятости логина без перезагрузки страницы.
         """
         login = request.POST.get("login")
 

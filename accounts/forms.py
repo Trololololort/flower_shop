@@ -10,7 +10,10 @@ FIELD_NAME_MAPPING = {
 
 
 class LoginForm(AuthenticationForm):
-
+    """
+    Самый простой способ соблюсти требования ТЗ -
+    подменить имена полей в форме "из коробки".
+    """
     def add_prefix(self, field_name):
         # look up field name; return original if not found
         field_name = FIELD_NAME_MAPPING.get(field_name, field_name)
@@ -27,6 +30,13 @@ VALIDATE_GTE6 = {"pattern": "^(.{6})(.*)$", "required": True, "title": GTE6_MESS
 
 
 class RegistrationForm(forms.Form):
+    """
+    Форма будет проверяться на стороне клиента.
+    На стороне сервера - не будет для экономии времени
+    в учебной задаче.
+    """
+
+
     surname = forms.CharField(required=True, widget=forms.TextInput(attrs=VALIDATE_CYR, ),
                               label="Фамилия ({})".format(CYR_MESSAGE))
     name = forms.CharField(required=True, widget=forms.TextInput(attrs=VALIDATE_CYR, ),
