@@ -9,7 +9,7 @@ from accounts.models import CustomUser
 from goods.models import Goods
 from .const import STATUS_CODES
 from .forms import GoodsSortFilterForm
-from .utils import are_there_enough_goods
+from .service import are_there_enough_goods
 
 
 class GoodsDetailView(DetailView):

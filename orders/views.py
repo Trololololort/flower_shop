@@ -7,8 +7,9 @@ from django.views import View
 from django.views.generic import DetailView, ListView
 
 from carts.views import get_total
+from general.const import RESULT
 from orders.models import Order
-from orders.utils import create_order
+from orders.service import create_order, delete_order
 
 
 class OrdersListView(LoginRequiredMixin,
@@ -46,11 +47,12 @@ class CreateOrder(LoginRequiredMixin,
         try:
             validate_password(password=password, user=user)
         except ValidationError:
-            messages.add_message(request, messages.INFO, "Неверный пароль")
+            messages.add_message(request, messages.ERROR, "Неверный пароль")
             return redirect("cart-detail")
 
+        new_order_id = create_order(user)
 
-        create_order(user, request)
+        messages.add_message(request, messages.INFO, "Ваш заказ номер {} принят к исполнению.".format(new_order_id))
 
         return redirect("orders-list")
 
@@ -61,10 +63,10 @@ class DeleteOrder(LoginRequiredMixin,
     def post(self, request):
         order_id = request.POST.get("order")
 
-        if order_id:
-            order_obj = Order.objects.filter(pk=order_id).first()
-            order_obj.delete()
+        result = delete_order(order_id)
+
+        if result == RESULT.SUCCESS:
             messages.add_message(request, messages.INFO, "Удален заказ {}.".format(order_id))
         else:
-            messages.add_message(request, messages.INFO, "Не удалось удалить заказ.")
+            messages.add_message(request, messages.ERROR, "Не удалось удалить заказ {}.".format(order_id))
         return redirect("orders-list")
