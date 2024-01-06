@@ -43,15 +43,15 @@ class AddToCart(LoginRequiredMixin,
         Товар можно добавить, каталога, карточки товара и из корзины. Т.е. из разных мест.
         Поэтому сообщение показать на странице, где добавлялся товар.
         """
-
         goods_id = request.POST.get('goods_id')
         addend = int(request.POST.get('addend'))
-
 
         assert (addend == 1 or addend == -1)
 
         status = add_goods_to_cart(goods_id, request.user, addend)
-        if status == 200:
+
+        if status["status"] == 200:
+            messages.add_message(request, messages.INFO, status["message"])
             return redirect(request.META['HTTP_REFERER'])
         else:
-            return HttpResponse("Wrong goods id", status=status)
+            return HttpResponse(status["message"], status=status)

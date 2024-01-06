@@ -30,10 +30,13 @@ def add_goods_to_cart(goods_id, user, addend):
         else:
             Cart.objects.create(user=user, goods=goods, quantity=1)
         status = 200
+        act = "добавлен в корзину" if addend > 0 else "убран из корзины"
+        message = 'Товар "{}" {}.'.format(goods.name, act)
     else:
         status = 400
+        message = "Wrong goods id"
 
-    return status
+    return {"status": status, "message": message}
 
 
 
