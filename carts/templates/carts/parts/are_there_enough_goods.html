@@ -1,0 +1,50 @@
+{% comment %}
+
+{% include 'carts/parts/are_there_enough_goods.html' %}
+
+Используется только вместе с add_to_cart_form.html.
+
+{% endcomment %}
+
+<script>
+    $( document ).ready(function() {
+        let $toCartForm = $("#to-cart-form");
+        let $toCcartButton = $("#to-cart-button");
+
+        function addGoodsToCart(data){
+            $toCartForm.submit();
+        }
+
+        function requestDataFromServerWhetherEnoughGoods(){
+            $.ajax({
+                type: "POST",
+                url: "{% url 'are-enough-in-stock' %}",
+                data: $toCartForm.serialize(),
+                success: addGoodsToCart,
+                error: notifyOnShortage
+            });
+
+        }
+
+
+        function addAddToCartFormListener(){
+            $toCcartButton.on( "click", function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                requestDataFromServerWhetherEnoughGoods();
+            });
+        };
+
+
+        function notifyOnShortage(data){
+            alert("Товар закончился.");
+        }
+
+        function addEventListeners(){
+            addAddToCartFormListener();
+        }
+
+        addEventListeners();
+    });
+</script>

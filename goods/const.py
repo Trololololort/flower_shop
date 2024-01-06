@@ -8,7 +8,7 @@ CHOICES_DICT = {
 }
 
 
-class STATUC_CODES(Enum):
+class STATUS_CODES(Enum):
     # Статусы ответов сервера:
     # достаточно ли товара для добавления
     # в корзину.

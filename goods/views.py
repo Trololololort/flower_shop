@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 
 from accounts.models import CustomUser
 from goods.models import Goods
-from .const import STATUC_CODES
+from .const import STATUS_CODES
 from .forms import GoodsSortFilterForm
 from .utils import are_there_enough_goods
 
@@ -76,8 +76,8 @@ class AreThereEnoughGoodsToAddToCart(View):
         enough_goods = are_there_enough_goods(request.user, goods_id)
 
         if enough_goods:
-            result = HttpResponse(STATUC_CODES.ENOUGH.value["message"], status=STATUC_CODES.ENOUGH.value["code"])
+            result = HttpResponse(STATUS_CODES.ENOUGH.value["message"], status=STATUS_CODES.ENOUGH.value["code"])
         else:
-            result = HttpResponse(STATUC_CODES.LACK.value["message"], status=STATUC_CODES.LACK.value["code"])
+            result = HttpResponse(STATUS_CODES.LACK.value["message"], status=STATUS_CODES.LACK.value["code"])
 
         return result

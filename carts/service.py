@@ -1,5 +1,6 @@
 from carts.models import Cart
 from goods.models import Goods
+from goods.const import STATUS_CODES
 
 
 def get_cart_contents(user):
