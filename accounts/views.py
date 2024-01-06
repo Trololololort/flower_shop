@@ -8,6 +8,7 @@ from django.views import generic, View
 
 from accounts.forms import LoginForm, RegistrationForm
 from accounts.models import CustomUser
+from accounts.service import create_user, get_status_code
 
 UserModel = get_user_model()
 
@@ -26,18 +27,13 @@ class SignUpView(generic.View):
         email = request.POST.get('email')
         rules = bool(request.POST.get('rules'))
 
-        user = CustomUser.objects.create(last_name=surname,
-                                  first_name=name,
-                                  partonymic=partonymic,
-                                  username=login,
-                                  password=password,
-                                  email=email,
-                                  rules=rules)
-        user.set_password(user.password) # Сохранить хэшированный пароль.
-        user.save()
-
-
-
+        create_user(surname,
+                    name,
+                    partonymic,
+                    login,
+                    email,
+                    rules,
+                    password)
         messages.add_message(request, messages.INFO, "Создан пользователь {}.".format(login))
 
         return redirect("home")
@@ -51,13 +47,9 @@ class ExtendedLoginView(LoginView):
 class IsLoginOccupiedView(View):
 
     def post(self, request):
-        status_code = 204
 
         login = request.POST.get("login")
 
-        occupied_login = CustomUser.objects.filter(username=login).first()
-
-        if occupied_login:
-            status_code = 403
+        status_code = get_status_code(login)
 
         return HttpResponse(status=status_code)
