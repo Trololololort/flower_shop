@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, View
 
 from carts.forms import OrderForm
 from carts.models import Cart
-from carts.utils import get_cart_contents
+from carts.service import get_cart_contents
 from goods.models import Goods
 
 
@@ -32,9 +32,22 @@ class CartDetailView(LoginRequiredMixin,
 class AddToCart(LoginRequiredMixin,
                 View):
     def post(self, request):
+        """
+        Добавить или убрать товар из корзины.
+        Если товар не может быть добавлен в корзину, сообщить об этом.
+        Если товара не хватает для добавления, ничего не
+
+        goods_id - id товара.
+        addend - может быть +1 (добавить) или -1 (удалить).
+
+        Товар можно добавить, каталога, карточки товара и из корзины. Т.е. из разных мест.
+        Поэтому сообщение показать на странице, где добавлялся товар.
+        """
+
         goods_id = request.POST.get('goods_id')
         addend = int(request.POST.get('addend'))
-        referer = request.POST.get('referer')
+
+        assert (addend == 1 or addend == -1)
 
         goods = Goods.objects.filter(pk=goods_id).first()
 
@@ -53,7 +66,7 @@ class AddToCart(LoginRequiredMixin,
             else:
                 Cart.objects.create(user=request.user, goods=goods, quantity=1)
             act = "добавлен в корзину" if addend > 0 else "убран из корзины"
-            messages.add_message(request, messages.INFO, 'Товар {} {}.'.format(goods.name, act))
-            return redirect(referer)
+            messages.add_message(request, messages.INFO, 'Товар "{}" {}.'.format(goods.name, act))
+            return redirect(request.META['HTTP_REFERER'])
         elif not goods:
             return HttpResponse("Wrong goods id", status=400)

@@ -1,4 +1,4 @@
-from carts.utils import get_cart_contents
+from carts.service import get_cart_contents
 from goods.models import Goods
 
 

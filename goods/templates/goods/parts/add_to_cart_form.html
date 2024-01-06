@@ -12,7 +12,6 @@
     {% csrf_token %}
     <input type="hidden" name="goods_id" value="{{ goods_id }}">
     <input type="hidden" name="addend" value="{{ addend|default:'1' }}">
-    <input type="hidden" name="referer" value="{{ referer }}">
     <button id="to-cart-button" style="min-width: 2.5em;" class="btn btn-primary">{{ button_text|default:"В корзину" }}</button>
 </form>
 

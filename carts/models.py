@@ -5,6 +5,16 @@ from general.model_mixins import UserMixin
 
 class Cart(UserMixin,
            models.Model):
+
+    """
+    Пользователь добавляет товар в корзину.
+    Пока поле order пустое, товар в корзине.
+    Когда поле order непустое, это уже заказ.
+
+    Таким образом организуется и текущая корзина,
+    и история заказов.
+    """
+
     goods = models.ForeignKey("goods.goods",
                               on_delete=models.CASCADE,
                               verbose_name="Товар")
