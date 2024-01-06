@@ -8,7 +8,7 @@ from django.views import generic, View
 
 from accounts.forms import LoginForm, RegistrationForm
 from accounts.models import CustomUser
-from accounts.service import create_user, get_status_code
+from accounts.service import create_user, is_login_occupied
 
 UserModel = get_user_model()
 
@@ -19,6 +19,10 @@ class SignUpView(generic.View):
         return render(request, template_name="registration/signup.html", context=context)
 
     def post(self, request):
+        """
+        Создать пользователя. После создания редирект на главную страницу.
+        """
+
         surname = request.POST.get('surname')
         name = request.POST.get('name')
         partonymic = request.POST.get('partonymic')
@@ -40,6 +44,11 @@ class SignUpView(generic.View):
 
 
 class ExtendedLoginView(LoginView):
+    """
+    Вместо стандартной формы Django
+    используем собственную форму.
+    """
+
     form_class = LoginForm
     template_name = "accounts/login.html"
 
@@ -47,9 +56,13 @@ class ExtendedLoginView(LoginView):
 class IsLoginOccupiedView(View):
 
     def post(self, request):
+        """
 
+        @param request:
+        @return:
+        """
         login = request.POST.get("login")
 
-        status_code = get_status_code(login)
+        status = is_login_occupied(login)
 
-        return HttpResponse(status=status_code)
+        return HttpResponse(status["status"], message=status["message"])

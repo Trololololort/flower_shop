@@ -20,17 +20,17 @@ def create_user(surname,
     user.save()
 
 
-def get_status_code(login):
+def is_login_occupied(login):
     """
     Для организации проверки пароля без перезагрузки страницы.
     В зависимости от того, занят ли логин,
     отправить 204 или 409.
     """
-    status_code = 204
+    status = {"status": 204, "message": "Login is free"}
 
     occupied_login = CustomUser.objects.filter(username=login).first()
 
     if occupied_login:
-        status_code = 409
+        status = {"status": 409, "message": "Login is occupied"}
 
-    return status_code
+    return status

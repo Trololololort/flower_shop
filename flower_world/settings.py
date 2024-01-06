@@ -127,7 +127,7 @@ STATIC_URL = 'static/'
 MEDIA_URL = 'media/'
 
 STATIC_ROOT = "/home/g/grablmz2/alice.academic.gift/public_html/static"
-MEDIA_ROOT = "/home/g/grablmz2/alice.academic.gift/public_html/media"
+MEDIA_ROOT = "" if DEBUG else "/home/g/grablmz2/alice.academic.gift/public_html/media"
 
 
 
